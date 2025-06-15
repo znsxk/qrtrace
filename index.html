@@ -30,105 +30,118 @@
             border-radius: 8px; /* Slightly softer than before */
             box-shadow: 0 3px 9px rgba(0, 0, 0, 0.08); /* More diffused shadow */
             border: 1px solid #EAEAEA; /* Very light, subtle border */
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-        /* Flowchart Line & Icon Styling */
+        .system-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Flowchart Styling */
         .flowchart-group {
             position: relative;
-            padding: 0 2rem; /* Padding for the main vertical line */
+            padding: 0 1rem; /* Adjust padding for smaller screens */
         }
         .flowchart-group::before { /* Main vertical line */
             content: '';
             position: absolute;
-            left: 50%;
+            left: 50%; /* Center the line */
             top: 0;
             bottom: 0;
-            width: 3px; /* Thicker line */
-            background-color: #C0C0C0; /* Muted Gray for lines */
+            width: 3px;
+            background-color: #C0C0C0; /* Muted Gray */
             transform: translateX(-50%);
             z-index: 1; /* Below content */
         }
         .flowchart-item {
             position: relative;
             z-index: 2; /* Above the main line */
-            display: flex;
+            display: flex; /* Default to vertical stack for mobile */
+            flex-direction: column;
             align-items: center;
-            margin-bottom: 2rem; /* Spacing between items */
+            margin-bottom: 2.5rem; /* Spacing between items on mobile */
         }
         .flowchart-item:last-child {
-            margin-bottom: 0; /* No margin after last item */
+            margin-bottom: 0;
         }
         .flowchart-item .step-indicator {
             background-color: #007BFF; /* Deep Sapphire Blue */
             color: white;
             border-radius: 50%;
-            width: 3.5rem; /* Larger indicator */
-            height: 3.5rem; /* Larger indicator */
+            width: 3.5rem;
+            height: 3.5rem;
             flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 1.5rem; /* Larger font */
-            box-shadow: 0 3px 8px rgba(0,0,0,0.2); /* Stronger shadow for indicator */
+            font-size: 1.5rem;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
             position: relative; /* For z-index over line */
             z-index: 3;
-            margin: 0 1rem; /* Space between indicator and content */
-        }
-        .flowchart-item .item-content {
-            flex-grow: 1;
-            padding: 0.5rem 0; /* Padding around content */
+            margin-bottom: 1rem; /* Space below indicator on mobile */
         }
         .flowchart-item .icon-wrapper {
             flex-shrink: 0;
-            width: 3rem; /* Icon container size */
+            width: 3rem;
             height: 3rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem; /* Icon size */
-            color: #555555; /* Icon color */
-            margin: 0 1rem; /* Space between icon and content */
+            font-size: 2rem;
+            color: #555555;
+            margin-bottom: 1rem; /* Space below icon on mobile */
+        }
+        .flowchart-item .item-content {
+            flex-grow: 1;
+            width: 100%; /* Full width on mobile */
+            text-align: center; /* Center content on mobile */
         }
 
         @media (min-width: 768px) { /* Tablet and Desktop layout */
+            .flowchart-group {
+                padding: 0 2rem;
+            }
             .flowchart-item {
                 display: grid;
                 grid-template-columns: 1fr auto 1fr; /* Left content, indicator/line, right content */
                 align-items: center;
-                gap: 0; /* No gap as elements are positioned */
-                margin-bottom: 3rem; /* More spacing */
+                gap: 0;
+                margin-bottom: 3rem; /* More spacing on desktop */
             }
-            .flowchart-item .item-content {
-                padding: 0;
-            }
-            .flowchart-item:nth-child(odd) { /* Left aligned content for odd items */
+            .flowchart-item:nth-child(odd) { /* Left content, indicator, right icon */
                 grid-template-areas: "content indicator icon";
             }
-            .flowchart-item:nth-child(even) { /* Right aligned content for even items */
+            .flowchart-item:nth-child(even) { /* Left icon, indicator, right content */
                 grid-template-areas: "icon indicator content";
             }
             .flowchart-item .system-card {
                 grid-area: content;
+                text-align: left; /* Align text left in cards */
+            }
+            .flowchart-item:nth-child(even) .system-card {
+                text-align: right; /* Align text right for even cards */
             }
             .flowchart-item .step-indicator {
                 grid-area: indicator;
-                margin: 0; /* Remove horizontal margin as grid handles spacing */
+                margin: 0; /* Remove vertical margin as grid handles spacing */
             }
             .flowchart-item .icon-wrapper {
                 grid-area: icon;
-                margin: 0; /* Remove horizontal margin as grid handles spacing */
+                margin: 0; /* Remove vertical margin as grid handles spacing */
             }
         }
-        /* End Flowchart Line & Icon Styling */
+        /* End Flowchart Styling */
 
+        /* Chart Styling */
         .chart-container {
             position: relative;
             width: 100%;
-            max-width: 320px;
+            max-width: 300px; /* Adjusted max-width for better fit */
             margin-left: auto;
             margin-right: auto;
-            height: 320px;
-            max-height: 400px;
+            height: 300px; /* Adjusted height */
+            max-height: 350px; /* Adjusted max-height */
         }
         .chart-text {
             position: absolute;
@@ -137,23 +150,17 @@
             transform: translate(-50%, -50%);
             text-align: center;
             font-weight: 900;
-            color: #333333; /* Deep Charcoal */
+            color: #333333;
         }
-        .document-card {
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            border: 1px solid #E0E0E0; /* Lighter border */
-        }
-        .document-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
-        }
+
+        /* Modal Styling */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(0, 0, 0, 0.9); /* Darker, more immersive overlay */
+            background-color: rgba(0, 0, 0, 0.9);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -167,24 +174,27 @@
             visibility: visible;
         }
         .modal-content {
-            background-color: #FFFFFF; /* White for modal content */
+            background-color: #FFFFFF;
             padding: 1.5rem;
             border-radius: 8px;
             max-width: 90vw;
             max-height: 90vh;
             transform: scale(0.95);
             transition: transform 0.3s ease;
-            border: 1px solid #E0E0E0; /* Border for modal */
+            border: 1px solid #E0E0E0;
             box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            overflow: auto; /* Enable scrolling for large images */
         }
         .modal-overlay.visible .modal-content {
             transform: scale(1);
         }
         .modal-content img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
+            max-width: 100%;
+            max-height: 100%;
+            display: block; /* Ensure no extra space below image */
+            margin: auto; /* Center image if smaller than modal */
         }
+
         /* Specific font for Traceability ID */
         .trace-id-font {
             font-family: 'Space Mono', monospace;
@@ -259,40 +269,74 @@
         <section class="mb-12">
             <h2 class="text-3xl font-extrabold text-center mb-8 text-[#333333]">능이버섯의 여정: 공급망 추적</h2>
             <div class="flowchart-group">
+                <!-- Step 1 -->
                 <div class="flowchart-item">
-                    <div class="system-card p-6 md:col-span-1">
-                        <h3 class="text-xl font-bold mb-2">자연 채취</h3>
-                        <p class="text-gray-600 text-sm">중국 운남성 시솽반나 열대우림(해발 1,250m)에서 허가된 채취인이 직접 손으로 채취했습니다.</p>
+                    <div class="item-content md:col-span-1">
+                        <div class="system-card p-6">
+                            <h3 class="text-xl font-bold mb-2">자연 채취</h3>
+                            <p class="text-gray-600 text-sm">중국 운남성 시솽반나 열대우림(해발 1,250m)에서 허가된 채취인이 직접 손으로 채취했습니다.</p>
+                        </div>
                     </div>
                     <div class="step-indicator">01</div>
                     <div class="icon-wrapper">🌲</div>
                 </div>
 
+                <!-- Step 2 -->
                 <div class="flowchart-item">
                     <div class="icon-wrapper">🚢</div>
                     <div class="step-indicator">02</div>
-                    <div class="system-card p-6 md:col-span-1 text-right">
-                        <h3 class="text-xl font-bold mb-2">수입 및 통관</h3>
-                        <p class="text-gray-600 text-sm">인천항을 통해 정식 수입(신고번호: 24HSLI0241L0260002)되었으며, 엄격한 검역 절차를 통과했습니다.</p>
+                    <div class="item-content md:col-span-1">
+                        <div class="system-card p-6">
+                            <h3 class="text-xl font-bold mb-2">수입 및 통관</h3>
+                            <p class="text-gray-600 text-sm">인천항을 통해 정식 수입(신고번호: 24HSLI0241L0260002)되었으며, 엄격한 검역 절차를 통과했습니다.</p>
+                        </div>
                     </div>
                 </div>
 
+                <!-- Step 3 -->
                 <div class="flowchart-item">
-                    <div class="system-card p-6 md:col-span-1">
-                        <h3 class="text-xl font-bold mb-2">안전성 검사</h3>
-                        <p class="text-gray-600 text-sm">식약처 공인 연구소에서 위생 검사를 통과하고, (주)바이오푸드랩에서 463종 잔류농약 검사를 통과했습니다.</p>
+                    <div class="item-content md:col-span-1">
+                        <div class="system-card p-6">
+                            <h3 class="text-xl font-bold mb-2">안전성 검사</h3>
+                            <p class="text-gray-600 text-sm">식약처 공인 연구소에서 위생 검사를 통과하고, (주)바이오푸드랩에서 463종 잔류농약 검사를 통과했습니다.</p>
+                        </div>
                     </div>
                     <div class="step-indicator">03</div>
                     <div class="icon-wrapper">🔬</div>
                 </div>
 
+                <!-- Step 4 -->
                 <div class="flowchart-item">
                     <div class="icon-wrapper">🚚</div>
                     <div class="step-indicator">04</div>
-                    <div class="system-card p-6 md:col-span-1 text-right">
-                        <h3 class="text-xl font-bold mb-2">콜드체인 보관 및 유통</h3>
-                        <p class="text-gray-600 text-sm">경기도 용인시 스마트 콜드체인 시설에서 0~5°C로 보관되며, 전문 콜드 물류 파트너를 통해 배송됩니다.</p>
+                    <div class="item-content md:col-span-1">
+                        <div class="system-card p-6">
+                            <h3 class="text-xl font-bold mb-2">콜드체인 보관 및 유통</h3>
+                            <p class="text-gray-600 text-sm">경기도 용인시 스마트 콜드체인 시설에서 0~5°C로 보관되며, 전문 콜드 물류 파트너를 통해 배송됩니다.</p>
+                        </div>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEW: Blockchain Data Verification Status Section -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-extrabold text-center mb-8 text-[#333333]">블록체인 데이터 검증 현황</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="system-card p-6 text-center">
+                    <p class="text-sm font-semibold text-gray-500 mb-2">총 데이터 블록 수</p>
+                    <p class="text-4xl md:text-5xl font-bold text-[#007BFF] trace-id-font">1,284</p>
+                    <p class="text-xs text-gray-600 mt-2">안정적인 데이터 기록</p>
+                </div>
+                <div class="system-card p-6 text-center">
+                    <p class="text-sm font-semibold text-gray-500 mb-2">검증된 거래 수</p>
+                    <p class="text-4xl md:text-5xl font-bold text-[#28A745] trace-id-font">420</p>
+                    <p class="text-xs text-gray-600 mt-2">완벽한 데이터 무결성</p>
+                </div>
+                <div class="system-card p-6 text-center">
+                    <p class="text-sm font-semibold text-gray-500 mb-2">마지막 업데이트</p>
+                    <p class="text-2xl md:text-3xl font-bold text-[#C0C0C0] trace-id-font">2025.06.15 19:00 KST</p>
+                    <p class="text-xs text-gray-600 mt-2">실시간 정보 제공</p>
                 </div>
             </div>
         </section>
