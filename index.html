@@ -329,35 +329,28 @@
         <!-- NEW: Blockchain Data Verification Status Section -->
 <!-- NEW: Blockchain Data Verification Status Section -->
 <section class="mb-12">
-  <h2 class="text-3xl font-extrabold text-center mb-8">블록체인 데이터 검증 현황</h2>
+  <h2 class="text-3xl …">블록체인 데이터 검증 현황</h2>
   <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-    <!-- 총 데이터 블록 수 -->
     <div class="system-card p-6 text-center">
-      <p class="text-sm font-semibold text-gray-500 mb-2">총 데이터 블록 수</p>
-      <p id="blockCount"
-         class="text-4xl md:text-5xl font-bold text-[#007BFF] trace-id-font">0</p>
-      <p class="text-xs text-gray-600 mt-2">안정적인 데이터 기록</p>
+      <p class="text-sm …">총 데이터 블록 수</p>
+      <p class="text-4xl …">1,284</p>
+      <p id="blockCount" class="text-4xl …">0</p>
+      <p class="text-xs …">안정적인 데이터 기록</p>
     </div>
-
-    <!-- 검증된 거래 수 -->
     <div class="system-card p-6 text-center">
-      <p class="text-sm font-semibold text-gray-500 mb-2">검증된 거래 수</p>
-      <p id="txCount"
-         class="text-4xl md:text-5xl font-bold text-[#28A745] trace-id-font">0</p>
-      <p class="text-xs text-gray-600 mt-2">완벽한 데이터 무결성</p>
+      <p class="text-sm …">검증된 거래 수</p>
+      <p class="text-4xl …">420</p>
+      <p id="txCount" class="text-4xl …">0</p>
+      <p class="text-xs …">완벽한 데이터 무결성</p>
     </div>
-
-    <!-- 마지막 업데이트 -->
     <div class="system-card p-6 text-center">
-      <p class="text-sm font-semibold text-gray-500 mb-2">마지막 업데이트</p>
-      <p id="lastUpdate"
-         class="text-2xl md:text-3xl font-bold text-[#C0C0C0] trace-id-font">
+      <p class="text-sm …">마지막 업데이트</p>
+      <p class="text-2xl …">2025.06.15 19:00 KST</p>
+      <p id="lastUpdate" class="text-2xl …">
         2025.06.15 19:00 KST
       </p>
-      <p class="text-xs text-gray-600 mt-2">실시간 정보 제공</p>
+      <p class="text-xs …">실시간 정보 제공</p>
     </div>
-
   </div>
 </section>
 
@@ -515,39 +508,28 @@
         });
     </script>
 <script>
-  // 숫자 애니메이션 함수: id, 시작값, 끝값, 지속시간(ms)
+  // 숫자 애니메이션 함수
   function animateValue(id, start, end, duration) {
     const el = document.getElementById(id);
     let current = start;
-    const stepTime = Math.max(50, duration / (end - start));
+    const step = Math.max(50, duration / (end - start));
     const timer = setInterval(() => {
       current++;
       el.textContent = current.toLocaleString();
       if (current >= end) clearInterval(timer);
-    }, stepTime);
+    }, step);
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    // 0 → 1,284 까지 2초 동안
-    animateValue('blockCount', 0, 1284, 2000);
-    // 0 → 420 까지 1.5초 동안
-    animateValue('txCount', 0, 420, 1500);
-    // 마지막 업데이트 텍스트 깜빡임 (0.5초 간격)
-    const up = document.getElementById('lastUpdate');
-    setInterval(() => {
-      up.style.visibility = up.style.visibility === 'hidden' ? 'visible' : 'hidden';
-    }, 500);
-  });
-</script>
- function updateLastUpdate() {
+  // 마지막 업데이트 페이드 + 현재 시각 갱신
+  function updateLastUpdate() {
     const el = document.getElementById('lastUpdate');
     const now = new Date();
-    const yyyy = now.getFullYear();
-    const mm   = String(now.getMonth()+1).padStart(2,'0');
-    const dd   = String(now.getDate()).padStart(2,'0');
-    const hh   = String(now.getHours()).padStart(2,'0');
-    const mi   = String(now.getMinutes()).padStart(2,'0');
-    const formatted = `${yyyy}.${mm}.${dd} ${hh}:${mi} KST`;
+    const YYYY = now.getFullYear();
+    const MM = String(now.getMonth()+1).padStart(2,'0');
+    const DD = String(now.getDate()).padStart(2,'0');
+    const hh = String(now.getHours()).padStart(2,'0');
+    const mm = String(now.getMinutes()).padStart(2,'0');
+    const formatted = `${YYYY}.${MM}.${DD} ${hh}:${mm} KST`;
 
     el.style.opacity = 0;
     setTimeout(() => {
@@ -557,7 +539,7 @@
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    // 1) 블록/거래 숫자 애니메이션
+    // 1) 데이터 블록 / 거래 수 애니메이션
     animateValue('blockCount', 0, 1284, 2000);
     animateValue('txCount',    0,  420, 1500);
 
