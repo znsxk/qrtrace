@@ -1,125 +1,154 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>능이버섯 블록체인 이력추적 시스템</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    body { font-family:'Noto Sans KR',sans-serif; background:#F8F8F8; color:#333 }
-    h1,h2,h3 { color:#333 }
-    .system-container { max-width:800px; margin:2rem auto; padding:1.5rem; background:#fff; border:1px solid #E0E0E0; border-radius:8px; box-shadow:0 6px 16px rgba(0,0,0,0.05); }
-    .system-card { background:#fff; border:1px solid #EAEAEA; border-radius:6px; box-shadow:0 3px 9px rgba(0,0,0,0.08); transition:transform .2s,box-shadow .2s; }
-    .system-card:hover { transform:translateY(-2px); box-shadow:0 5px 12px rgba(0,0,0,0.1); }
-    /* ...흐름도·차트·모달 공통 스타일 생략... */
-  </style>
-</head>
-<body class="text-gray-800">
-  <div class="system-container">
-
-    <!-- Hero / 인증 -->
-    <header class="text-center mb-10 border-b pb-6 border-gray-200">
-      <div class="inline-block bg-blue-600 text-white px-4 py-2 rounded-full font-bold mb-4">
-        <span class="animate-pulse">🔗</span> 블록체인 검증 완료
+<!-- ===== Product Overview 시작 ===== -->
+<section class="system-card p-6 mb-12">
+  <div class="grid md:grid-cols-3 gap-6 items-center">
+    <div class="md:col-span-1 border border-gray-200 rounded-md overflow-hidden">
+      <img src="https://placehold.co/400x400/C0C0C0/333333?text=Neungi"
+           alt="건조 능이버섯" class="object-cover w-full h-48 md:h-full">
+    </div>
+    <div class="md:col-span-2">
+      <h2 class="text-2xl font-bold mb-4 border-b pb-2 border-gray-200">제품 정보 요약</h2>
+      <div class="grid grid-cols-2 gap-4 text-sm">
+        <div>
+          <p class="font-semibold text-gray-500">제품명</p>
+          <p class="font-bold">건조 능이버섯</p>
+        </div>
+        <div>
+          <p class="font-semibold text-gray-500">학명</p>
+          <p class="font-bold">Sarcodon aspratus</p>
+        </div>
+        <div>
+          <p class="font-semibold text-gray-500">품종</p>
+          <p class="font-bold">운남성 산지종</p>
+        </div>
+        <div>
+          <p class="font-semibold text-gray-500">원산지</p>
+          <p class="font-bold">중국 운남성</p>
+        </div>
+        <div>
+          <p class="font-semibold text-gray-500">수입자</p>
+          <p class="font-bold">(주)아이와푸드</p>
+        </div>
+        <div>
+          <p class="font-semibold text-gray-500">유통기한</p>
+          <p class="font-bold text-red-600">2025년 09월 14일</p>
+        </div>
       </div>
-      <h1 class="text-4xl font-black mb-2">건조 능이버섯 통합 이력추적 시스템</h1>
-      <p class="text-gray-600">Sarcodon Aspratus Traceability System</p>
-    </header>
-
-    <!-- Document ID 인증 -->
-    <section class="system-card p-6 mb-12 text-center">
-      <p class="text-lg font-medium text-gray-700 mb-2">이력추적 문서 번호</p>
-      <p id="traceID" class="text-5xl font-bold text-blue-600 trace-id-font mb-4">KFA-BT-20250417-CN01</p>
-      <div class="inline-flex items-center bg-blue-100 text-blue-800 px-4 py-2 rounded-full border border-blue-300 mb-4">
-        데이터 무결성 검증 완료
+    </div>
+  </div>
+</section>
+<!-- ===== Product Overview 끝 ===== -->
+<!-- ===== Journey Section 시작 ===== -->
+<section class="mb-12">
+  <h2 class="text-3xl font-extrabold text-center mb-8">능이버섯의 여정: 공급망 추적</h2>
+  <div class="flowchart-group">
+    <!-- Step 1 -->
+    <div class="flowchart-item">
+      <div class="item-content">
+        <div class="system-card p-6">
+          <h3 class="text-xl font-bold mb-2">자연 채취</h3>
+          <p class="text-gray-600 text-sm">
+            중국 운남성 시솽반나 열대우림(해발 1,250m)에서 허가된 채취인이 직접 손으로 채취했습니다.
+          </p>
+        </div>
       </div>
-      <p class="text-sm text-gray-600 max-w-md mx-auto">
-        이 정보는 한국산림청(KFA) 프로토콜에 따라 블록체인에 기록되어 위·변조가 불가능합니다.
+      <div class="step-indicator">01</div>
+      <div class="icon-wrapper">🌲</div>
+    </div>
+    <!-- Step 2 -->
+    <div class="flowchart-item">
+      <div class="icon-wrapper">🚢</div>
+      <div class="step-indicator">02</div>
+      <div class="item-content">
+        <div class="system-card p-6">
+          <h3 class="text-xl font-bold mb-2">수입 및 통관</h3>
+          <p class="text-gray-600 text-sm">
+            인천항을 통해 정식 수입(신고번호: 24HSLI0241L0260002)되었으며, 엄격한 검역 절차를 통과했습니다.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- Step 3 -->
+    <div class="flowchart-item">
+      <div class="item-content">
+        <div class="system-card p-6">
+          <h3 class="text-xl font-bold mb-2">안전성 검사</h3>
+          <p class="text-gray-600 text-sm">
+            식약처 공인 연구소에서 위생 검사를 통과하고, (주)바이오푸드랩에서 463종 잔류농약 검사를 통과했습니다.
+          </p>
+        </div>
+      </div>
+      <div class="step-indicator">03</div>
+      <div class="icon-wrapper">🔬</div>
+    </div>
+    <!-- Step 4 -->
+    <div class="flowchart-item">
+      <div class="icon-wrapper">🚚</div>
+      <div class="step-indicator">04</div>
+      <div class="item-content">
+        <div class="system-card p-6">
+          <h3 class="text-xl font-bold mb-2">콜드체인 보관 및 유통</h3>
+          <p class="text-gray-600 text-sm">
+            경기도 용인시 스마트 콜드체인 시설에서 0~5°C로 보관되며,
+            전문 콜드 물류 파트너를 통해 배송됩니다.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ===== Journey Section 끝 ===== -->
+<!-- ===== 안전 & 품질 대시보드 시작 ===== -->
+<section class="mb-12">
+  <h2 class="text-3xl font-extrabold text-center mb-8">안전 & 품질 대시보드</h2>
+  <div class="grid md:grid-cols-2 gap-8">
+    <div class="system-card p-6 text-center">
+      <h3 class="text-xl font-bold mb-4">잔류농약 검사 (463종)</h3>
+      <div class="chart-container">
+        <canvas id="pesticideChart"></canvas>
+        <div class="chart-text text-3xl md:text-4xl">
+          463종<br><span class="text-green-600">PASS</span>
+        </div>
+      </div>
+      <p class="text-sm text-gray-500 mt-4">
+        국내 공인 검사기관 (주)바이오푸드랩에서 463종 광범위 잔류농약 검사를 통과했습니다.
       </p>
-    </section>
-<!-- PART 1 END -->
-    <!-- Product Overview -->
-    <section class="system-card p-6 mb-12">
-      <div class="grid md:grid-cols-3 gap-6 items-center">
-        <div class="md:col-span-1 border border-gray-200 rounded-md overflow-hidden">
-          <img src="https://placehold.co/400x400/C0C0C0/333333?text=Neungi" alt="" class="object-cover w-full h-48 md:h-full">
-        </div>
-        <div class="md:col-span-2">
-          <h2 class="text-2xl font-bold mb-4 border-b pb-2 border-gray-200">제품 정보 요약</h2>
-          <div class="grid grid-cols-2 gap-4 text-sm">
-            <!-- 제품명, 학명, 품종, 원산지, 수입자, 유통기한 -->
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Journey Section -->
-    <section class="mb-12">
-      <h2 class="text-3xl font-extrabold text-center mb-8">능이버섯의 여정: 공급망 추적</h2>
-      <div class="flowchart-group">
-        <!-- Step 1~4: 자연 채취, 수입통관, 검사, 콜드체인 -->
-      </div>
-    </section>
-<!-- PART 2 END -->
-    <!-- Blockchain Data Verification Status -->
-    <section class="mb-12">
-      <h2 class="text-3xl font-extrabold text-center mb-8">블록체인 데이터 검증 현황</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="system-card p-6 text-center">
-          <p class="text-sm text-gray-500 mb-2">총 데이터 블록 수</p>
-          <p id="blockCount" class="text-4xl font-bold text-blue-600 trace-id-font">0</p>
-          <p class="text-xs text-gray-600 mt-2">안정적 기록</p>
-        </div>
-        <div class="system-card p-6 text-center">
-          <p class="text-sm text-gray-500 mb-2">검증된 거래 수</p>
-          <p id="txCount" class="text-4xl font-bold text-green-600 trace-id-font">0</p>
-          <p class="text-xs text-gray-600 mt-2">무결성 확보</p>
-        </div>
-        <div class="system-card p-6 text-center">
-          <p class="text-sm text-gray-500 mb-2">마지막 업데이트</p>
-          <p id="lastUpdate" class="text-2xl font-bold text-gray-400 trace-id-font">2025.06.15 19:00 KST</p>
-          <p class="text-xs text-gray-600 mt-2">실시간 정보</p>
-        </div>
-      </div>
-    </section>
-
-    <script>
-      // 숫자 애니메이션 함수
-      function animateValue(id, start, end, duration) {
-        const el = document.getElementById(id);
-        let current = start;
-        const stepTime = Math.max(50, duration / (end - start));
-        const timer = setInterval(() => {
-          current++;
-          el.textContent = current.toLocaleString();
-          if (current >= end) clearInterval(timer);
-        }, stepTime);
-      }
-      document.addEventListener('DOMContentLoaded', () => {
-        animateValue('blockCount', 0, 1284, 2000);
-        animateValue('txCount', 0, 420, 1500);
-        // 마지막 업데이트 깜빡임
-        const up = document.getElementById('lastUpdate');
-        setInterval(() => {
-          up.style.visibility = up.style.visibility === 'hidden' ? 'visible' : 'hidden';
-        }, 500);
-      });
-    </script>
-<!-- PART 3 END -->
-    <!-- Safety & Quality Dashboard -->
-    <section class="mb-12">
-      <h2 class="text-3xl font-extrabold text-center mb-8">안전 & 품질 대시보드</h2>
-      <div class="grid md:grid-cols-2 gap-8">
-        <!-- 농약 검사 차트, 위생 검사 차트 -->
-      </div>
-    </section>
-
-    <!-- Document Library + Modal + Footer -->
-    <!-- ...원본 그대로 복사... -->
-
-  </div> <!-- /.system-container -->
-</body>
-</html>
-<!-- PART 4 END -->
+    </div>
+    <div class="system-card p-6">
+      <h3 class="text-xl font-bold mb-4 text-center">주요 위생 검사</h3>
+      <canvas id="hygieneChart"></canvas>
+      <p class="text-sm text-gray-500 mt-4 text-center">
+        식약처 공인 수입 검사 연구소에서 주요 식중독균 및 독소 검사를 통과했습니다.
+      </p>
+    </div>
+  </div>
+</section>
+<!-- ===== 안전 & 품질 대시보드 끝 ===== -->
+<!-- ===== 증명서 보관함 시작 ===== -->
+<section>
+  <h2 class="text-3xl font-extrabold text-center mb-8">증명서 보관함</h2>
+  <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+    <div class="system-card p-4 text-center cursor-pointer" onclick="showModal('https://placehold.co/600x800/E0E0E0/333333?text=China+Quarantine+Cert.')">
+      <p class="text-4xl mb-2">🇨🇳</p>
+      <p class="font-bold text-sm">중국 검역증</p>
+    </div>
+    <div class="system-card p-4 text-center cursor-pointer" onclick="showModal('https://placehold.co/600x800/E0E0E0/333333?text=Import+Declaration')">
+      <p class="text-4xl mb-2">🇰🇷</p>
+      <p class="font-bold text-sm">수입 신고 확인필증</p>
+    </div>
+    <div class="system-card p-4 text-center cursor-pointer" onclick="showModal('https://placehold.co/600x800/E0E0E0/333333?text=Pesticide+Test+Report')">
+      <p class="text-4xl mb-2">🔬</p>
+      <p class="font-bold text-sm">잔류농약 성적서</p>
+    </div>
+  </div>
+</section>
+<!-- Modal -->
+<div id="imageModal" class="modal-overlay" onclick="hideModal()">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <img id="modalImage" src="" alt="증명서 이미지">
+  </div>
+</div>
+<!-- Footer -->
+<footer class="text-center p-8 text-gray-500 text-xs">
+  <p>본 이력 정보는 한국산림청(KFA) 프로토콜 #KFA-BT-20250417-CN01에 따라 블록체인으로 검증되었습니다.</p>
+  <p>&copy; 2025 Iwa Food Co., Ltd. All Rights Reserved.</p>
+</footer>
