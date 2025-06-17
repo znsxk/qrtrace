@@ -1,154 +1,528 @@
-<!-- ===== Product Overview 시작 ===== -->
-<section class="system-card p-6 mb-12">
-  <div class="grid md:grid-cols-3 gap-6 items-center">
-    <div class="md:col-span-1 border border-gray-200 rounded-md overflow-hidden">
-      <img src="https://placehold.co/400x400/C0C0C0/333333?text=Neungi"
-           alt="건조 능이버섯" class="object-cover w-full h-48 md:h-full">
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>능이버섯 블록체인 이력추적 시스템</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #F8F8F8; /* Refined Neutrals: Soft Off-White */
+            color: #333333; /* Deep Charcoal for main text */
+        }
+        h1, h2, h3 {
+            color: #333333; /* Deep Charcoal for headings */
+        }
+        .system-container {
+            border: 1px solid #E0E0E0; /* Subtle light gray border for main frame */
+            border-radius: 10px; /* Slightly softer rounded corners */
+            background-color: #FFFFFF; /* Clean White background for content area */
+            padding: 1.5rem;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05); /* Softer, more diffused shadow */
+        }
+        .system-card {
+            background-color: #FFFFFF;
+            border-radius: 8px; /* Slightly softer than before */
+            box-shadow: 0 3px 9px rgba(0, 0, 0, 0.08); /* More diffused shadow */
+            border: 1px solid #EAEAEA; /* Very light, subtle border */
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .system-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Flowchart Styling */
+        .flowchart-group {
+            position: relative;
+            padding: 0 1rem; /* Adjust padding for smaller screens */
+        }
+        .flowchart-group::before { /* Main vertical line */
+            content: '';
+            position: absolute;
+            left: 50%; /* Center the line */
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background-color: #C0C0C0; /* Muted Gray */
+            transform: translateX(-50%);
+            z-index: 1; /* Below content */
+        }
+        .flowchart-item {
+            position: relative;
+            z-index: 2; /* Above the main line */
+            display: flex; /* Default to vertical stack for mobile */
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2.5rem; /* Spacing between items on mobile */
+        }
+        .flowchart-item:last-child {
+            margin-bottom: 0;
+        }
+        .flowchart-item .step-indicator {
+            background-color: #007BFF; /* Deep Sapphire Blue */
+            color: white;
+            border-radius: 50%;
+            width: 3.5rem;
+            height: 3.5rem;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+            position: relative; /* For z-index over line */
+            z-index: 3;
+            margin-bottom: 1rem; /* Space below indicator on mobile */
+        }
+        .flowchart-item .icon-wrapper {
+            flex-shrink: 0;
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #555555;
+            margin-bottom: 1rem; /* Space below icon on mobile */
+        }
+        .flowchart-item .item-content {
+            flex-grow: 1;
+            width: 100%; /* Full width on mobile */
+            text-align: center; /* Center content on mobile */
+        }
+
+        @media (min-width: 768px) { /* Tablet and Desktop layout */
+            .flowchart-group {
+                padding: 0 2rem;
+            }
+            .flowchart-item {
+                display: grid;
+                grid-template-columns: 1fr auto 1fr; /* Left content, indicator/line, right content */
+                align-items: center;
+                gap: 0;
+                margin-bottom: 3rem; /* More spacing on desktop */
+            }
+            .flowchart-item:nth-child(odd) { /* Left content, indicator, right icon */
+                grid-template-areas: "content indicator icon";
+            }
+            .flowchart-item:nth-child(even) { /* Left icon, indicator, right content */
+                grid-template-areas: "icon indicator content";
+            }
+            .flowchart-item .system-card {
+                grid-area: content;
+                text-align: left; /* Align text left in cards */
+            }
+            .flowchart-item:nth-child(even) .system-card {
+                text-align: right; /* Align text right for even cards */
+            }
+            .flowchart-item .step-indicator {
+                grid-area: indicator;
+                margin: 0; /* Remove vertical margin as grid handles spacing */
+            }
+            .flowchart-item .icon-wrapper {
+                grid-area: icon;
+                margin: 0; /* Remove vertical margin as grid handles spacing */
+            }
+        }
+        /* End Flowchart Styling */
+
+        /* Chart Styling */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 300px; /* Adjusted max-width for better fit */
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px; /* Adjusted height */
+            max-height: 350px; /* Adjusted max-height */
+        }
+        .chart-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            font-weight: 900;
+            color: #333333;
+        }
+
+        /* Modal Styling */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background-color: #FFFFFF;
+            padding: 1.5rem;
+            border-radius: 8px;
+            max-width: 90vw;
+            max-height: 90vh;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+            border: 1px solid #E0E0E0;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            overflow: auto; /* Enable scrolling for large images */
+        }
+        .modal-overlay.visible .modal-content {
+            transform: scale(1);
+        }
+        .modal-content img {
+            max-width: 100%;
+            max-height: 100%;
+            display: block; /* Ensure no extra space below image */
+            margin: auto; /* Center image if smaller than modal */
+        }
+
+        /* Specific font for Traceability ID */
+        .trace-id-font {
+            font-family: 'Space Mono', monospace;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-4xl system-container">
+
+        <!-- Hero Section -->
+        <header class="text-center mb-10 border-b pb-6 border-gray-200">
+            <div class="inline-block bg-[#007BFF] text-white rounded-full px-4 py-2 text-sm font-bold mb-4 shadow-md">
+                <span class="inline-block animate-pulse mr-2">🔗</span>블록체인 검증 완료
+            </div>
+            <h1 class="text-4xl md:text-5xl font-black text-[#333333] mb-2">건조 능이버섯 통합 이력추적 시스템</h1>
+            <p class="text-lg text-gray-600">Sarcodon Aspratus Traceability System</p>
+        </header>
+
+        <!-- Verification Section -->
+        <section class="system-card p-6 md:p-8 mb-12 text-center">
+            <p class="text-lg font-medium text-gray-700 mb-2">이력추적 문서 번호 (Traceability ID)</p>
+            <p class="text-5xl md:text-6xl font-bold text-[#007BFF] trace-id-font tracking-widest mb-4">KFA-BT-20250417-CN01</p>
+            <div class="inline-flex items-center bg-blue-100 text-blue-800 text-base font-semibold px-4 py-2 rounded-full border border-blue-300">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                데이터 무결성 검증 완료
+            </div>
+            <p class="mt-5 text-gray-600 max-w-3xl mx-auto text-sm">
+                본 이력 정보는 한국산림청(KFA) 프로토콜에 따라 블록체인에 기록되어 위·변조가 불가능하며, 투명하고 신뢰할 수 있는 정보를 제공합니다.
+            </p>
+        </section>
+
+        <!-- Product Overview -->
+        <section class="system-card p-6 md:p-8 mb-12">
+            <div class="grid md:grid-cols-3 gap-6 items-center">
+                <div class="md:col-span-1 border border-gray-200 rounded-md overflow-hidden">
+                    <img src="https://placehold.co/400x400/C0C0C0/333333?text=Neungi" alt="건조 능이버섯" class="object-cover w-full h-48 md:h-full">
+                </div>
+                <div class="md:col-span-2">
+                    <h2 class="text-2xl font-bold text-[#333333] mb-4 border-b pb-2 border-gray-200">제품 정보 요약</h2>
+                    <div class="grid grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <p class="font-semibold text-gray-500">제품명</p>
+                            <p class="font-bold text-gray-800">건조 능이버섯</p>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-500">학명</p>
+                            <p class="font-bold text-gray-800">Sarcodon aspratus</p>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-500">품종</p>
+                            <p class="font-bold text-gray-800">운남성 산지종</p>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-500">원산지</p>
+                            <p class="font-bold text-gray-800">중국 운남성</p>
+                        </div>
+                         <div>
+                            <p class="font-semibold text-gray-500">수입자</p>
+                            <p class="font-bold text-gray-800">(주)아이와푸드</p>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-500">유통기한</p>
+                            <p class="font-bold text-red-600">2025년 09월 14일</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Journey Section -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-extrabold text-center mb-8 text-[#333333]">능이버섯의 여정: 공급망 추적</h2>
+            <div class="flowchart-group">
+                <!-- Step 1 -->
+                <div class="flowchart-item">
+                    <div class="item-content md:col-span-1">
+                        <div class="system-card p-6">
+                            <h3 class="text-xl font-bold mb-2">자연 채취</h3>
+                            <p class="text-gray-600 text-sm">중국 운남성 시솽반나 열대우림(해발 1,250m)에서 허가된 채취인이 직접 손으로 채취했습니다.</p>
+                        </div>
+                    </div>
+                    <div class="step-indicator">01</div>
+                    <div class="icon-wrapper">🌲</div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="flowchart-item">
+                    <div class="icon-wrapper">🚢</div>
+                    <div class="step-indicator">02</div>
+                    <div class="item-content md:col-span-1">
+                        <div class="system-card p-6">
+                            <h3 class="text-xl font-bold mb-2">수입 및 통관</h3>
+                            <p class="text-gray-600 text-sm">인천항을 통해 정식 수입(신고번호: 24HSLI0241L0260002)되었으며, 엄격한 검역 절차를 통과했습니다.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="flowchart-item">
+                    <div class="item-content md:col-span-1">
+                        <div class="system-card p-6">
+                            <h3 class="text-xl font-bold mb-2">안전성 검사</h3>
+                            <p class="text-gray-600 text-sm">식약처 공인 연구소에서 위생 검사를 통과하고, (주)바이오푸드랩에서 463종 잔류농약 검사를 통과했습니다.</p>
+                        </div>
+                    </div>
+                    <div class="step-indicator">03</div>
+                    <div class="icon-wrapper">🔬</div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="flowchart-item">
+                    <div class="icon-wrapper">🚚</div>
+                    <div class="step-indicator">04</div>
+                    <div class="item-content md:col-span-1">
+                        <div class="system-card p-6">
+                            <h3 class="text-xl font-bold mb-2">콜드체인 보관 및 유통</h3>
+                            <p class="text-gray-600 text-sm">경기도 용인시 스마트 콜드체인 시설에서 0~5°C로 보관되며, 전문 콜드 물류 파트너를 통해 배송됩니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEW: Blockchain Data Verification Status Section -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-extrabold text-center mb-8 text-[#333333]">블록체인 데이터 검증 현황</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="system-card p-6 text-center">
+                    <p class="text-sm font-semibold text-gray-500 mb-2">총 데이터 블록 수</p>
+                    <p class="text-4xl md:text-5xl font-bold text-[#007BFF] trace-id-font">1,284</p>
+                    <p id="blockCount" class="text-4xl md:text-5xl font-bold text-[#007BFF] trace-id-font">0</p>
+                    <p class="text-xs text-gray-600 mt-2">안정적인 데이터 기록</p>
+                </div>
+                <div class="system-card p-6 text-center">
+                    <p class="text-sm font-semibold text-gray-500 mb-2">검증된 거래 수</p>
+                    <p class="text-4xl md:text-5xl font-bold text-[#28A745] trace-id-font">420</p>
+                    <p id="txCount" class="text-4xl md:text-5xl font-bold text-[#28A745] trace-id-font">0</p>
+                    <p class="text-xs text-gray-600 mt-2">완벽한 데이터 무결성</p>
+
+                </div>
+                <div class="system-card p-6 text-center">
+                    <p class="text-sm font-semibold text-gray-500 mb-2">마지막 업데이트</p>
+                    <p class="text-2xl md:text-3xl font-bold text-[#C0C0C0] trace-id-font">2025.06.15 19:00 KST</p>
+                    <p id="lastUpdate" class="text-2xl md:text-3xl font-bold text-[#C0C0C0] trace-id-font">
+                      2025.06.15 19:00 KST
+                    </p>
+                    <p class="text-xs text-gray-600 mt-2">실시간 정보 제공</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Safety & Quality Dashboard -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-extrabold text-center mb-8 text-[#333333]">안전 & 품질 대시보드</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="system-card p-6 text-center">
+                    <h3 class="text-xl font-bold mb-4">잔류농약 검사 (463종)</h3>
+                    <div class="chart-container">
+                        <canvas id="pesticideChart"></canvas>
+                        <div class="chart-text text-3xl md:text-4xl">
+                            463종<br><span class="text-[#28A745]">PASS</span>
+                        </div>
+                    </div>
+                     <p class="text-sm text-gray-500 mt-4">국내 공인 검사기관 (주)바이오푸드랩에서 463종의 광범위한 잔류농약 검사를 통과하여 안전성이 입증되었습니다.</p>
+                </div>
+                <div class="system-card p-6">
+                    <h3 class="text-xl font-bold mb-4 text-center">주요 위생 검사</h3>
+                    <canvas id="hygieneChart"></canvas>
+                    <p class="text-sm text-gray-500 mt-4 text-center">식약처 공인 수입 검사 연구소에서 주요 식중독균 및 독소 검사를 통과했습니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Document Library -->
+        <section>
+             <h2 class="text-3xl font-extrabold text-center mb-8 text-[#333333]">증명서 보관함</h2>
+             <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+                 <div class="document-card system-card p-4 text-center cursor-pointer" onclick="showModal('https://placehold.co/600x800/E0E0E0/333333?text=China+Quarantine+Cert.')">
+                     <p class="text-4xl mb-2">🇨🇳</p>
+                     <p class="font-bold text-sm">중국 검역증</p>
+                 </div>
+                 <div class="document-card system-card p-4 text-center cursor-pointer" onclick="showModal('https://placehold.co/600x800/E0E0E0/333333?text=Import+Declaration')">
+                     <p class="text-4xl mb-2">🇰🇷</p>
+                     <p class="font-bold text-sm">수입 신고 확인필증</p>
+                 </div>
+                 <div class="document-card system-card p-4 text-center cursor-pointer" onclick="showModal('https://placehold.co/600x800/E0E0E0/333333?text=Pesticide+Test+Report')">
+                     <p class="text-4xl mb-2">🔬</p>
+                     <p class="font-bold text-sm">잔류농약 성적서</p>
+                 </div>
+             </div>
+        </section>
     </div>
-    <div class="md:col-span-2">
-      <h2 class="text-2xl font-bold mb-4 border-b pb-2 border-gray-200">제품 정보 요약</h2>
-      <div class="grid grid-cols-2 gap-4 text-sm">
-        <div>
-          <p class="font-semibold text-gray-500">제품명</p>
-          <p class="font-bold">건조 능이버섯</p>
+
+    <div id="imageModal" class="modal-overlay" onclick="hideModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <img id="modalImage" src="" alt="증명서 이미지">
         </div>
-        <div>
-          <p class="font-semibold text-gray-500">학명</p>
-          <p class="font-bold">Sarcodon aspratus</p>
-        </div>
-        <div>
-          <p class="font-semibold text-gray-500">품종</p>
-          <p class="font-bold">운남성 산지종</p>
-        </div>
-        <div>
-          <p class="font-semibold text-gray-500">원산지</p>
-          <p class="font-bold">중국 운남성</p>
-        </div>
-        <div>
-          <p class="font-semibold text-gray-500">수입자</p>
-          <p class="font-bold">(주)아이와푸드</p>
-        </div>
-        <div>
-          <p class="font-semibold text-gray-500">유통기한</p>
-          <p class="font-bold text-red-600">2025년 09월 14일</p>
-        </div>
-      </div>
     </div>
-  </div>
-</section>
-<!-- ===== Product Overview 끝 ===== -->
-<!-- ===== Journey Section 시작 ===== -->
-<section class="mb-12">
-  <h2 class="text-3xl font-extrabold text-center mb-8">능이버섯의 여정: 공급망 추적</h2>
-  <div class="flowchart-group">
-    <!-- Step 1 -->
-    <div class="flowchart-item">
-      <div class="item-content">
-        <div class="system-card p-6">
-          <h3 class="text-xl font-bold mb-2">자연 채취</h3>
-          <p class="text-gray-600 text-sm">
-            중국 운남성 시솽반나 열대우림(해발 1,250m)에서 허가된 채취인이 직접 손으로 채취했습니다.
-          </p>
-        </div>
-      </div>
-      <div class="step-indicator">01</div>
-      <div class="icon-wrapper">🌲</div>
-    </div>
-    <!-- Step 2 -->
-    <div class="flowchart-item">
-      <div class="icon-wrapper">🚢</div>
-      <div class="step-indicator">02</div>
-      <div class="item-content">
-        <div class="system-card p-6">
-          <h3 class="text-xl font-bold mb-2">수입 및 통관</h3>
-          <p class="text-gray-600 text-sm">
-            인천항을 통해 정식 수입(신고번호: 24HSLI0241L0260002)되었으며, 엄격한 검역 절차를 통과했습니다.
-          </p>
-        </div>
-      </div>
-    </div>
-    <!-- Step 3 -->
-    <div class="flowchart-item">
-      <div class="item-content">
-        <div class="system-card p-6">
-          <h3 class="text-xl font-bold mb-2">안전성 검사</h3>
-          <p class="text-gray-600 text-sm">
-            식약처 공인 연구소에서 위생 검사를 통과하고, (주)바이오푸드랩에서 463종 잔류농약 검사를 통과했습니다.
-          </p>
-        </div>
-      </div>
-      <div class="step-indicator">03</div>
-      <div class="icon-wrapper">🔬</div>
-    </div>
-    <!-- Step 4 -->
-    <div class="flowchart-item">
-      <div class="icon-wrapper">🚚</div>
-      <div class="step-indicator">04</div>
-      <div class="item-content">
-        <div class="system-card p-6">
-          <h3 class="text-xl font-bold mb-2">콜드체인 보관 및 유통</h3>
-          <p class="text-gray-600 text-sm">
-            경기도 용인시 스마트 콜드체인 시설에서 0~5°C로 보관되며,
-            전문 콜드 물류 파트너를 통해 배송됩니다.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- ===== Journey Section 끝 ===== -->
-<!-- ===== 안전 & 품질 대시보드 시작 ===== -->
-<section class="mb-12">
-  <h2 class="text-3xl font-extrabold text-center mb-8">안전 & 품질 대시보드</h2>
-  <div class="grid md:grid-cols-2 gap-8">
-    <div class="system-card p-6 text-center">
-      <h3 class="text-xl font-bold mb-4">잔류농약 검사 (463종)</h3>
-      <div class="chart-container">
-        <canvas id="pesticideChart"></canvas>
-        <div class="chart-text text-3xl md:text-4xl">
-          463종<br><span class="text-green-600">PASS</span>
-        </div>
-      </div>
-      <p class="text-sm text-gray-500 mt-4">
-        국내 공인 검사기관 (주)바이오푸드랩에서 463종 광범위 잔류농약 검사를 통과했습니다.
-      </p>
-    </div>
-    <div class="system-card p-6">
-      <h3 class="text-xl font-bold mb-4 text-center">주요 위생 검사</h3>
-      <canvas id="hygieneChart"></canvas>
-      <p class="text-sm text-gray-500 mt-4 text-center">
-        식약처 공인 수입 검사 연구소에서 주요 식중독균 및 독소 검사를 통과했습니다.
-      </p>
-    </div>
-  </div>
-</section>
-<!-- ===== 안전 & 품질 대시보드 끝 ===== -->
-<!-- ===== 증명서 보관함 시작 ===== -->
-<section>
-  <h2 class="text-3xl font-extrabold text-center mb-8">증명서 보관함</h2>
-  <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-    <div class="system-card p-4 text-center cursor-pointer" onclick="showModal('https://placehold.co/600x800/E0E0E0/333333?text=China+Quarantine+Cert.')">
-      <p class="text-4xl mb-2">🇨🇳</p>
-      <p class="font-bold text-sm">중국 검역증</p>
-    </div>
-    <div class="system-card p-4 text-center cursor-pointer" onclick="showModal('https://placehold.co/600x800/E0E0E0/333333?text=Import+Declaration')">
-      <p class="text-4xl mb-2">🇰🇷</p>
-      <p class="font-bold text-sm">수입 신고 확인필증</p>
-    </div>
-    <div class="system-card p-4 text-center cursor-pointer" onclick="showModal('https://placehold.co/600x800/E0E0E0/333333?text=Pesticide+Test+Report')">
-      <p class="text-4xl mb-2">🔬</p>
-      <p class="font-bold text-sm">잔류농약 성적서</p>
-    </div>
-  </div>
-</section>
-<!-- Modal -->
-<div id="imageModal" class="modal-overlay" onclick="hideModal()">
-  <div class="modal-content" onclick="event.stopPropagation()">
-    <img id="modalImage" src="" alt="증명서 이미지">
-  </div>
-</div>
-<!-- Footer -->
-<footer class="text-center p-8 text-gray-500 text-xs">
-  <p>본 이력 정보는 한국산림청(KFA) 프로토콜 #KFA-BT-20250417-CN01에 따라 블록체인으로 검증되었습니다.</p>
-  <p>&copy; 2025 Iwa Food Co., Ltd. All Rights Reserved.</p>
-</footer>
+
+    <footer class="text-center p-8 text-gray-500 text-xs">
+        <p>본 이력 정보는 한국산림청(KFA) 프로토콜 #KFA-BT-20250417-CN01에 따라 블록체인으로 검증되었습니다.</p>
+        <p>&copy; 2025 Iwa Food Co., Ltd. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+
+        function showModal(src) {
+            modalImage.src = src;
+            modal.classList.add('visible');
+        }
+
+        function hideModal() {
+            modal.classList.remove('visible');
+            setTimeout(() => { modalImage.src = ''; }, 300);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const pesticideCtx = document.getElementById('pesticideChart').getContext('2d');
+            new Chart(pesticideCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['검사 통과'],
+                    datasets: [{
+                        data: [100],
+                        backgroundColor: ['#28A745'], /* System UI: Green for PASS */
+                        borderColor: ['#F8F8F8'], /* Match body background */
+                        borderWidth: 5,
+                        circumference: 270,
+                        rotation: 225,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '80%',
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { enabled: false }
+                    }
+                }
+            });
+
+            const hygieneCtx = document.getElementById('hygieneChart').getContext('2d');
+            new Chart(hygieneCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['살모넬라균', '리스테리아균', '아플라톡신 B1 (ppb)'],
+                    datasets: [{
+                        label: '검출량',
+                        data: [0, 0, 0.8],
+                        backgroundColor: [
+                            '#007BFF', /* System UI: Blue for detected/safe */
+                            '#007BFF',
+                            '#C0C0C0'  /* System UI: Gray for values */
+                        ],
+                        borderRadius: 5,
+                        borderWidth: 0,
+                        barThickness: 20,
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            grid: { display: false, drawBorder: false, },
+                             ticks: {
+                                callback: function(value, index, values) {
+                                    return value + (index === 2 ? ' ppb' : '');
+                                }
+                            }
+                        },
+                        y: {
+                             grid: { display: false, drawBorder: false, }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                             callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) { label += ': '; }
+                                    if (context.parsed.x !== null) {
+                                        if(context.label.includes('균')) {
+                                           return context.parsed.x === 0 ? '불검출' : context.parsed.x;
+                                        }
+                                        label += context.parsed.x + ' ppb';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+<script>
+  // 숫자 애니메이션 함수: id, 시작값, 끝값, 지속시간(ms)
+  function animateValue(id, start, end, duration) {
+    const el = document.getElementById(id);
+    let current = start;
+    const stepTime = Math.max(50, duration / (end - start));
+    const timer = setInterval(() => {
+      current++;
+      el.textContent = current.toLocaleString();
+      if (current >= end) clearInterval(timer);
+    }, stepTime);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // 0 → 1,284 까지 2초 동안
+    animateValue('blockCount', 0, 1284, 2000);
+    // 0 → 420 까지 1.5초 동안
+    animateValue('txCount', 0, 420, 1500);
+    // 마지막 업데이트 텍스트 깜빡임 (0.5초 간격)
+    const up = document.getElementById('lastUpdate');
+    setInterval(() => {
+      up.style.visibility = up.style.visibility === 'hidden' ? 'visible' : 'hidden';
+    }, 500);
+  });
+</script>
+
+</body>
+</html>
