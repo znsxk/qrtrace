@@ -320,26 +320,31 @@
         </section>
 
         <!-- NEW: Blockchain Data Verification Status Section -->
-        <section class="mb-12">
-            <h2 class="text-3xl font-extrabold text-center mb-8 text-[#333333]">블록체인 데이터 검증 현황</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="system-card p-6 text-center">
-                    <p class="text-sm font-semibold text-gray-500 mb-2">총 데이터 블록 수</p>
-                    <p class="text-4xl md:text-5xl font-bold text-[#007BFF] trace-id-font">1,284</p>
-                    <p class="text-xs text-gray-600 mt-2">안정적인 데이터 기록</p>
-                </div>
-                <div class="system-card p-6 text-center">
-                    <p class="text-sm font-semibold text-gray-500 mb-2">검증된 거래 수</p>
-                    <p class="text-4xl md:text-5xl font-bold text-[#28A745] trace-id-font">420</p>
-                    <p class="text-xs text-gray-600 mt-2">완벽한 데이터 무결성</p>
-                </div>
-                <div class="system-card p-6 text-center">
-                    <p class="text-sm font-semibold text-gray-500 mb-2">마지막 업데이트</p>
-                    <p class="text-2xl md:text-3xl font-bold text-[#C0C0C0] trace-id-font">2025.06.15 19:00 KST</p>
-                    <p class="text-xs text-gray-600 mt-2">실시간 정보 제공</p>
-                </div>
-            </div>
-        </section>
+         <section class="mb-12">
+    <h2 class="text-3xl font-extrabold text-center mb-8">블록체인 데이터 검증 현황</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="system-card p-6 text-center">
+        <p class="text-sm font-semibold text-gray-500 mb-2">총 데이터 블록 수</p>
+        <p class="text-4xl md:text-5xl font-bold text-[#007BFF] trace-id-font">1,284</p>
+        <p id="blockCount" class="text-4xl md:text-5xl font-bold text-[#007BFF] trace-id-font">0</p>
+        <p class="text-xs text-gray-600 mt-2">안정적인 데이터 기록</p>
+      </div>
+      <div class="system-card p-6 text-center">
+        <p class="text-sm font-semibold text-gray-500 mb-2">검증된 거래 수</p>
+        <p class="text-4xl md:text-5xl font-bold text-[#28A745] trace-id-font">420</p>
+        <p id="txCount" class="text-4xl md:text-5xl font-bold text-[#28A745] trace-id-font">0</p>
+        <p class="text-xs text-gray-600 mt-2">완벽한 데이터 무결성</p>
+      </div>
+      <div class="system-card p-6 text-center">
+        <p class="text-sm font-semibold text-gray-500 mb-2">마지막 업데이트</p>
+        <p class="text-2xl md:text-3xl font-bold text-[#C0C0C0] trace-id-font">2025.06.15 19:00 KST</p>
+        <p id="lastUpdate" class="text-2xl md:text-3xl font-bold text-[#C0C0C0] trace-id-font">
+          2025.06.15 19:00 KST
+        </p>
+        <p class="text-xs text-gray-600 mt-2">실시간 정보 제공</p>
+      </div>
+    </div>
+  </section>
 
         <!-- Safety & Quality Dashboard -->
         <section class="mb-12">
@@ -492,6 +497,31 @@
             });
         });
     </script>
-
+ <script>
+    // 숫자 애니메이션: 0 → 목표값
+    function animateValue(id, start, end, duration) {
+      const el = document.getElementById(id);
+      let current = start;
+      const stepTime = Math.max(50, duration / (end - start));
+      const timer = setInterval(() => {
+        current++;
+        el.textContent = current.toLocaleString();
+        if (current >= end) clearInterval(timer);
+      }, stepTime);
+    }
+    // 깜빡임 효과
+    function blink(id, interval) {
+      const el = document.getElementById(id);
+      setInterval(() => {
+        el.style.visibility = el.style.visibility === 'hidden' ? 'visible' : 'hidden';
+      }, interval);
+    }
+    // DOM 로드 후 실행
+    document.addEventListener('DOMContentLoaded', () => {
+      animateValue('blockCount', 0, 1284, 2000);
+      animateValue('txCount',    0, 420,  1500);
+      blink('lastUpdate', 500);
+    });
+  </script>
 </body>
 </html>
