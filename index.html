@@ -1,179 +1,93 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8"/>
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>능이버섯 블록체인 이력추적 시스템</title>
+
+  <!-- TailwindCSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- CountUp.js for 숫자 애니메이션 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.0.7/countUp.min.js"></script>
+
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+
   <style>
-    /* ─────────────────────────────────────────────────────────
-       기본 레이아웃 & 시스템 UI 스타일 (기존 그대로)
-    ───────────────────────────────────────────────────────── */
-    body {
-      font-family: 'Noto Sans KR', sans-serif;
-      background-color: #F8F8F8;
-      color: #333333;
-    }
-    h1,h2,h3 { color:#333333; }
+    body { font-family:'Noto Sans KR',sans-serif; background:#F8F8F8; color:#333; }
+    .trace-id-font { font-family:'Space Mono',monospace; }
     .system-container {
-      border:1px solid #E0E0E0;
-      border-radius:10px;
-      background:#fff;
-      padding:1.5rem;
-      box-shadow:0 6px 16px rgba(0,0,0,0.05);
+      background:#fff; border:1px solid #e0e0e0; border-radius:10px;
+      box-shadow:0 6px 16px rgba(0,0,0,0.05); padding:1.5rem; max-width:800px;
+      margin:2rem auto;
     }
     .system-card {
-      background:#fff;
-      border-radius:8px;
-      box-shadow:0 3px 9px rgba(0,0,0,0.08);
-      border:1px solid #EAEAEA;
-      transition:transform 0.2s,box-shadow 0.2s;
+      background:#fff; border:1px solid #eaeaea; border-radius:8px;
+      box-shadow:0 3px 9px rgba(0,0,0,0.08); transition:transform .2s,box-shadow .2s;
     }
     .system-card:hover {
-      transform:translateY(-2px);
-      box-shadow:0 5px 12px rgba(0,0,0,0.1);
-    }
-    .trace-id-font { font-family:'Space Mono',monospace; }
-
-    /* ─────────────────────────────────────────────────────────
-       Flowchart, Chart, Modal 등 (기존 그대로)
-    ───────────────────────────────────────────────────────── */
-    .flowchart-group { position:relative; padding:0 1rem; }
-    .flowchart-group::before {
-      content:''; position:absolute;
-      left:50%;top:0;bottom:0;
-      width:3px;background:#C0C0C0;
-      transform:translateX(-50%); z-index:1;
-    }
-    .flowchart-item {
-      position:relative; z-index:2;
-      display:flex; flex-direction:column; align-items:center;
-      margin-bottom:2.5rem;
-    }
-    .flowchart-item:last-child { margin-bottom:0; }
-    .step-indicator {
-      background:#007BFF;color:#fff;border-radius:50%;
-      width:3.5rem;height:3.5rem; display:flex;
-      align-items:center;justify-content:center;
-      font-weight:bold;font-size:1.5rem;
-      box-shadow:0 3px 8px rgba(0,0,0,0.2);
-      z-index:3;margin-bottom:1rem;
-    }
-    .icon-wrapper {
-      width:3rem;height:3rem;display:flex;
-      align-items:center;justify-content:center;
-      font-size:2rem;color:#555;
-      margin-bottom:1rem;
-    }
-    .item-content { width:100%;text-align:center; }
-    @media (min-width:768px) {
-      .flowchart-group { padding:0 2rem; }
-      .flowchart-item {
-        display:grid;
-        grid-template-columns:1fr auto 1fr;
-        align-items:center;margin-bottom:3rem;
-      }
-      .flowchart-item:nth-child(odd) { grid-template-areas:"content indicator icon"; }
-      .flowchart-item:nth-child(even){ grid-template-areas:"icon indicator content"; }
-      .flowchart-item .system-card { grid-area:content; }
-      .flowchart-item:nth-child(even) .system-card { text-align:right; }
-      .step-indicator { grid-area:indicator; margin:0; }
-      .icon-wrapper { grid-area:icon; margin:0; }
-    }
-
-    .chart-container{ position:relative;width:100%;max-width:300px;height:300px; }
-    .chart-text{ position:absolute;top:50%;left:50%;transform:translate(-50%,-50%); font-weight:900;color:#333; }
-
-    .modal-overlay{
-      position:fixed;top:0;left:0;right:0;bottom:0;
-      background:rgba(0,0,0,0.9);
-      display:flex;justify-content:center;align-items:center;
-      opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s;
-      z-index:50;
-    }
-    .modal-overlay.visible{ opacity:1;visibility:visible; }
-    .modal-content{
-      background:#fff;padding:1.5rem;border-radius:8px;
-      max-width:90vw;max-height:90vh;transform:scale(.95);
-      transition:transform .3s;overflow:auto;border:1px solid #E0E0E0;
-      box-shadow:0 8px 20px rgba(0,0,0,0.2);
-    }
-    .modal-overlay.visible .modal-content{ transform:scale(1); }
-    .modal-content img{ max-width:100%;max-height:100%;display:block;margin:auto; }
-
-    /* ─────────────────────────────────────────────────────────
-       *** 여기에 추가: 깜박임 & 카운터 애니메이션 ***
-    ───────────────────────────────────────────────────────── */
-    /* 깜박임 keyframes */
-    @keyframes blink {
-      0%,100% { opacity:1; }
-      50%      { opacity:0; }
-    }
-    .blink {
-      animation: blink 1s step-end infinite;
+      transform:translateY(-2px); box-shadow:0 5px 12px rgba(0,0,0,0.1);
     }
   </style>
 </head>
 <body class="text-gray-800">
 
-  <div class="container mx-auto p-4 md:p-8 max-w-4xl system-container">
-    <!-- Hero Section -->
+  <div class="system-container">
+
+    <!-- Hero -->
     <header class="text-center mb-10 border-b pb-6 border-gray-200">
-      <div class="inline-block bg-[#007BFF] text-white rounded-full px-4 py-2 text-sm font-bold mb-4 shadow-md">
-        <span class="inline-block animate-pulse mr-2">🔗</span>블록체인 검증 완료
+      <div class="inline-block bg-blue-600 text-white px-4 py-2 rounded-full font-bold mb-4">
+        <span class="animate-pulse mr-2">🔗</span>블록체인 검증 완료
       </div>
-      <h1 class="text-4xl md:text-5xl font-black text-[#333333] mb-2">건조 능이버섯 통합 이력추적 시스템</h1>
+      <h1 class="text-4xl md:text-5xl font-black mb-2">건조 능이버섯 통합 이력추적 시스템</h1>
       <p class="text-lg text-gray-600">Sarcodon Aspratus Traceability System</p>
     </header>
 
-    <!-- Verification Section -->
-    <section class="system-card p-6 md:p-8 mb-12 text-center">
+    <!-- Verification -->
+    <section class="system-card p-8 mb-12 text-center">
       <p class="text-lg font-medium text-gray-700 mb-2">이력추적 문서 번호 (Traceability ID)</p>
-      <p class="text-5xl md:text-6xl font-bold text-[#007BFF] trace-id-font tracking-widest mb-4">KFA-BT-20250417-CN01</p>
-      <div class="inline-flex items-center bg-blue-100 text-blue-800 text-base font-semibold px-4 py-2 rounded-full border border-blue-300">
+      <p class="text-5xl md:text-6xl font-bold text-blue-600 trace-id-font tracking-widest mb-4">
+        KFA-BT-20250417-CN01
+      </p>
+      <div class="inline-flex items-center bg-blue-100 text-blue-800 px-4 py-2 rounded-full border border-blue-300 mb-4">
         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
         </svg>
         데이터 무결성 검증 완료
       </div>
-      <p class="mt-5 text-gray-600 max-w-3xl mx-auto text-sm">
+      <p class="text-sm text-gray-600 max-w-3xl mx-auto">
         본 이력 정보는 한국산림청(KFA) 프로토콜에 따라 블록체인에 기록되어 위·변조가 불가능하며, 투명하고 신뢰할 수 있는 정보를 제공합니다.
       </p>
     </section>
 
-    <!-- Product Overview -->
-    <!-- ... (생략: 기존 그대로) ... -->
-
-    <!-- Journey Section -->
-    <!-- ... (생략: 기존 그대로) ... -->
-
-    <!-- NEW: Blockchain Data Verification Status Section -->
+    <!-- Blockchain Data Verification Status -->
     <section class="mb-12">
-      <h2 class="text-3xl font-extrabold text-center mb-8 text-[#333333]">블록체인 데이터 검증 현황</h2>
+      <h2 class="text-3xl font-extrabold text-center mb-8">블록체인 데이터 검증 현황</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-        <!-- 카운팅 숫자 요소에 class="stat-number" & data-target -->
+        <!-- 총 데이터 블록 수 -->
         <div class="system-card p-6 text-center">
           <p class="text-sm font-semibold text-gray-500 mb-2">총 데이터 블록 수</p>
-          <p class="text-4xl md:text-5xl font-bold text-[#007BFF] trace-id-font stat-number" data-target="1284">0</p>
+          <p id="blockCount" class="text-4xl md:text-5xl font-bold text-blue-600 trace-id-font">0</p>
           <p class="text-xs text-gray-600 mt-2">안정적인 데이터 기록</p>
         </div>
 
+        <!-- 검증된 거래 수 -->
         <div class="system-card p-6 text-center">
           <p class="text-sm font-semibold text-gray-500 mb-2">검증된 거래 수</p>
-          <p class="text-4xl md:text-5xl font-bold text-[#28A745] trace-id-font stat-number" data-target="420">0</p>
+          <p id="txCount" class="text-4xl md:text-5xl font-bold text-green-600 trace-id-font">0</p>
           <p class="text-xs text-gray-600 mt-2">완벽한 데이터 무결성</p>
         </div>
 
+        <!-- 마지막 업데이트 -->
         <div class="system-card p-6 text-center">
           <p class="text-sm font-semibold text-gray-500 mb-2">마지막 업데이트</p>
-          <!-- 깜박임 효과를 줄 요소에 class="blink" -->
-          <p class="text-2xl md:text-3xl font-bold text-[#C0C0C0] trace-id-font blink">
+          <p id="lastUpdate" class="text-2xl md:text-3xl font-bold text-gray-400 trace-id-font">
             2025.06.15 19:00 KST
           </p>
           <p class="text-xs text-gray-600 mt-2">실시간 정보 제공</p>
@@ -182,62 +96,189 @@
       </div>
     </section>
 
+    <!-- Product Overview -->
+    <section class="system-card p-6 md:p-8 mb-12">
+      <div class="grid md:grid-cols-3 gap-6 items-center">
+        <div class="md:col-span-1 border border-gray-200 rounded overflow-hidden">
+          <img src="https://placehold.co/400x400/C0C0C0/333333?text=Neungi" alt="능이버섯" class="w-full h-48 object-cover">
+        </div>
+        <div class="md:col-span-2">
+          <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b pb-2 border-gray-200">제품 정보 요약</h2>
+          <div class="grid grid-cols-2 gap-4 text-sm">
+            <div>
+              <p class="font-semibold text-gray-500">제품명</p>
+              <p class="font-bold text-gray-800">건조 능이버섯</p>
+            </div>
+            <div>
+              <p class="font-semibold text-gray-500">학명</p>
+              <p class="font-bold text-gray-800">Sarcodon aspratus</p>
+            </div>
+            <div>
+              <p class="font-semibold text-gray-500">품종</p>
+              <p class="font-bold text-gray-800">운남성 산지종</p>
+            </div>
+            <div>
+              <p class="font-semibold text-gray-500">원산지</p>
+              <p class="font-bold text-gray-800">중국 운남성</p>
+            </div>
+            <div>
+              <p class="font-semibold text-gray-500">수입자</p>
+              <p class="font-bold text-gray-800">(주)아이와푸드</p>
+            </div>
+            <div>
+              <p class="font-semibold text-gray-500">유통기한</p>
+              <p class="font-bold text-red-600">2025년 09월 14일</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Journey Section -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-extrabold text-center mb-8">능이버섯의 여정: 공급망 추적</h2>
+      <div class="relative pl-6 before:absolute before:left-1/2 before:h-full before:w-1 before:bg-gray-300">
+
+        <!-- Step 1 -->
+        <div class="flex mb-10 items-center">
+          <div class="flex-shrink-0 w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center mr-4">1</div>
+          <div class="system-card p-4 flex-1">
+            <h3 class="font-bold mb-1">자연 채취</h3>
+            <p class="text-sm text-gray-600">중국 운남성 시솽반나 열대우림에서 허가된 채취인이 직접 손으로 채취.</p>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="flex mb-10 items-center flex-row-reverse">
+          <div class="flex-shrink-0 w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center ml-4">2</div>
+          <div class="system-card p-4 flex-1 text-right">
+            <h3 class="font-bold mb-1">수입 및 통관</h3>
+            <p class="text-sm text-gray-600">인천항 통해 정식 수입(신고번호: 24HSLI0241L0260002) 후 엄격 검역.</p>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="flex mb-10 items-center">
+          <div class="flex-shrink-0 w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center mr-4">3</div>
+          <div class="system-card p-4 flex-1">
+            <h3 class="font-bold mb-1">안전성 검사</h3>
+            <p class="text-sm text-gray-600">식약처 공인·(주)바이오푸드랩 463종 잔류농약 검사 통과.</p>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="flex items-center flex-row-reverse">
+          <div class="flex-shrink-0 w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center ml-4">4</div>
+          <div class="system-card p-4 flex-1 text-right">
+            <h3 class="font-bold mb-1">콜드체인 보관 및 유통</h3>
+            <p class="text-sm text-gray-600">0~5°C 스마트 콜드체인 시설 보관 후 배송.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
     <!-- Safety & Quality Dashboard -->
-    <!-- ... (생략: 기존 그대로) ... -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-extrabold text-center mb-8">안전 & 품질 대시보드</h2>
+      <div class="grid md:grid-cols-2 gap-8">
+
+        <!-- Pesticide Chart -->
+        <div class="system-card p-6 text-center">
+          <h3 class="font-bold mb-4">잔류농약 검사 (463종)</h3>
+          <div class="relative mx-auto" style="width:300px;height:300px">
+            <canvas id="pesticideChart"></canvas>
+            <div class="absolute inset-0 flex items-center justify-center font-black text-4xl text-green-600">
+              PASS
+            </div>
+          </div>
+        </div>
+
+        <!-- Hygiene Chart -->
+        <div class="system-card p-6 text-center">
+          <h3 class="font-bold mb-4">주요 위생 검사</h3>
+          <canvas id="hygieneChart" style="max-width:300px;margin:0 auto;"></canvas>
+        </div>
+
+      </div>
+    </section>
 
     <!-- Document Library -->
-    <!-- ... (생략: 기존 그대로) ... -->
+    <section>
+      <h2 class="text-3xl font-extrabold text-center mb-8">증명서 보관함</h2>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+
+        <div class="system-card p-4 text-center cursor-pointer" onclick="showModal('https://placehold.co/600x800/E0E0E0/333333?text=China+Quarantine+Cert.')">
+          <p class="text-4xl mb-2">🇨🇳</p>
+          <p class="font-bold text-sm">중국 검역증</p>
+        </div>
+
+        <div class="system-card p-4 text-center cursor-pointer" onclick="showModal('https://placehold.co/600x800/E0E0E0/333333?text=Import+Declaration')">
+          <p class="text-4xl mb-2">🇰🇷</p>
+          <p class="font-bold text-sm">수입 신고 확인필증</p>
+        </div>
+
+        <div class="system-card p-4 text-center cursor-pointer" onclick="showModal('https://placehold.co/600x800/E0E0E0/333333?text=Pesticide+Test+Report')">
+          <p class="text-4xl mb-2">🔬</p>
+          <p class="font-bold text-sm">잔류농약 성적서</p>
+        </div>
+
+      </div>
+    </section>
 
   </div>
 
-  <div id="imageModal" class="modal-overlay" onclick="hideModal()">
-    <div class="modal-content" onclick="event.stopPropagation()">
-      <img id="modalImage" src="" alt="증명서 이미지"/>
+  <!-- Modal -->
+  <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center opacity-0 pointer-events-none transition-opacity">
+    <div class="bg-white p-4 rounded shadow-lg max-w-[90vw] max-h-[90vh] overflow-auto">
+      <img id="modalImage" src="" alt="증명서 이미지" class="max-w-full max-h-full mx-auto"/>
     </div>
   </div>
 
-  <footer class="text-center p-8 text-gray-500 text-xs">
-    <p>본 이력 정보는 한국산림청(KFA) 프로토콜 #KFA-BT-20250417-CN01에 따라 블록체인으로 검증되었습니다.</p>
-    <p>&copy; 2025 Iwa Food Co., Ltd. All Rights Reserved.</p>
-  </footer>
-
   <script>
-    // ─────────────────────────────────────────────────────────
-    // 1) 모달 스크립트 (기존 그대로)
-    // ─────────────────────────────────────────────────────────
-    const modal = document.getElementById('imageModal');
-    const modalImage = document.getElementById('modalImage');
     function showModal(src) {
-      modalImage.src = src;
-      modal.classList.add('visible');
+      document.getElementById('modalImage').src = src;
+      const modal = document.getElementById('imageModal');
+      modal.classList.remove('opacity-0','pointer-events-none');
+      modal.classList.add('opacity-100');
     }
-    function hideModal() {
-      modal.classList.remove('visible');
-      setTimeout(()=> modalImage.src = '', 300);
-    }
-
-    // ─────────────────────────────────────────────────────────
-    // 2) Chart.js 초기화 (기존 그대로)
-    // ─────────────────────────────────────────────────────────
-    document.addEventListener('DOMContentLoaded', ()=>{
-      // 여기에 기존 Chart.js 초기화 코드를 넣으시면 됩니다.
-      // (생략)
+    document.getElementById('imageModal').addEventListener('click', () => {
+      const modal = document.getElementById('imageModal');
+      modal.classList.add('opacity-0','pointer-events-none');
     });
 
-    // ─────────────────────────────────────────────────────────
-    // 3) 숫자 카운팅 & 깜박임 애니메이션
-    // ─────────────────────────────────────────────────────────
     document.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('.stat-number').forEach(counter => {
-        const target = +counter.dataset.target;
-        const duration = 2000;           // 총 애니메이션 시간 (ms)
-        const stepTime = Math.max(Math.floor(duration / target), 16);
-        let current = 0;
-        const timer = setInterval(() => {
-          current += 1;
-          counter.textContent = current.toLocaleString();
-          if (current >= target) clearInterval(timer);
-        }, stepTime);
+      // CountUp animations
+      new CountUp('blockCount', 1284, { duration:2, separator:',' }).start();
+      new CountUp('txCount', 420, { duration:2, separator:',' }).start();
+
+      // Blink last update
+      const lastEl = document.getElementById('lastUpdate');
+      setInterval(() => {
+        lastEl.style.visibility = lastEl.style.visibility === 'hidden' ? 'visible' : 'hidden';
+      }, 500);
+
+      // Chart.js: Pesticide
+      new Chart(document.getElementById('pesticideChart').getContext('2d'), {
+        type:'doughnut',
+        data:{ labels:['PASS'], datasets:[{ data:[100], backgroundColor:['#28A745'], cutout:'80%' }]},
+        options:{ plugins:{ legend:{ display:false }, tooltip:{ enabled:false } } }
+      });
+      // Chart.js: Hygiene
+      new Chart(document.getElementById('hygieneChart').getContext('2d'), {
+        type:'bar',
+        data:{
+          labels:['살모넬라균','리스테리아균','아플라톡신 B1 (ppb)'],
+          datasets:[{ label:'검출량', data:[0,0,0.8], borderRadius:5, barThickness:20,
+            backgroundColor:['#007BFF','#007BFF','#C0C0C0'] }]
+        },
+        options:{
+          indexAxis:'y', scales:{ x:{ beginAtZero:true, grid:{ display:false,drawBorder:false },
+            ticks:{ callback:(v,i)=> v + (i===2?' ppb':'') }}, y:{ grid:{ display:false,drawBorder:false } } },
+          plugins:{ legend:{ display:false }, tooltip:{ callbacks:{
+            label:ctx=> ctx.parsed.x===0 && ctx.label.includes('균') ? '불검출' : ctx.parsed.x + (ctx.label.includes('ppb')?' ppb':'')
+          } } }
+        }
       });
     });
   </script>
