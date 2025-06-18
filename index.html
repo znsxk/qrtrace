@@ -37,6 +37,40 @@ opacity: 1;
 opacity: 0.3;
 }
 }
+@keyframes spin {
+from {
+transform: rotate(0deg);
+}
+to {
+transform: rotate(360deg);
+}
+}
+.animate-spin {
+animation: spin 1s linear infinite;
+}
+0% {
+transform: translateX(-100%);
+opacity: 0;
+}
+10% {
+opacity: 1;
+}
+90% {
+opacity: 1;
+}
+100% {
+transform: translateX(100%);
+opacity: 0;
+}
+}
+@keyframes blink {
+0%, 100% {
+opacity: 1;
+}
+50% {
+opacity: 0.3;
+}
+}
 .animate-marquee {
 animation: marquee 10s linear infinite;
 white-space: nowrap;
@@ -150,8 +184,12 @@ transform: rotate(360deg);
 </div>
 <div>
 <h1 class="text-sm font-medium text-secondary">이력추적 관리시스템</h1>
-<p class="text-xs text-gray-500">Product Tracking System v1.0</p>
+<p class="text-xs text-gray-500">Product Tracking System v2.5 Enterprise</p>
 </div>
+</div>
+<div class="absolute right-4 top-14 flex items-center space-x-1 bg-green-50 px-2 py-1 rounded-full">
+<span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+<span class="text-[10px] text-green-700 animate-blink">실시간 모니터링 중</span>
 </div>
 <div class="flex items-center space-x-2">
 <button class="w-8 h-8 flex items-center justify-center bg-[#F0F3EB] rounded-full text-primary">
@@ -170,8 +208,16 @@ transform: rotate(360deg);
 <div class="bg-[#F0F3EB] p-4 pt-6">
 <div class="flex items-center justify-between mb-4">
 <div>
-<p class="text-xs text-primary mb-1">Product Tracking System v1.0</p>
+<div class="flex items-center space-x-2 mb-1">
+<p class="text-xs text-primary">Product Tracking System v2.5 Enterprise</p>
+<span class="text-[10px] px-1.5 py-0.5 bg-blue-50 text-blue-700 rounded-full">ISO 27001</span>
+</div>
 <h1 class="text-xl font-bold text-secondary">능이버섯 이력추적 시스템</h1>
+<div class="flex items-center space-x-2 mt-1">
+<span class="text-[10px] px-1.5 py-0.5 bg-gray-100 text-gray-600 rounded-full">블록체인 기반</span>
+<span class="text-[10px] px-1.5 py-0.5 bg-gray-100 text-gray-600 rounded-full">실시간 데이터</span>
+<span class="text-[10px] px-1.5 py-0.5 bg-gray-100 text-gray-600 rounded-full">AI 품질관리</span>
+</div>
 </div>
 <div class="w-12 h-12 flex items-center justify-center bg-white rounded-full shadow-md">
 <i class="ri-qr-scan-2-line ri-lg text-primary"></i>
@@ -182,13 +228,45 @@ transform: rotate(360deg);
 <input type="text" placeholder="제품번호 또는 QR코드 검색" class="w-full text-sm border-none focus:outline-none">
 </div>
 <div class="flex space-x-2 mb-4">
-<div class="flex-1 bg-white rounded-lg p-3 text-center">
+<div class="grid grid-cols-2 gap-2">
+<div class="bg-white rounded-lg p-3 text-center">
 <p class="text-xs text-gray-500 mb-1">Today's Scan</p>
 <p class="text-lg font-bold text-primary"><span id="todayScan" data-target="2471">0</span></p>
+<div class="flex items-center justify-center mt-1">
+<i class="ri-arrow-up-line text-green-500 text-xs"></i>
+<span class="text-[10px] text-green-500 animate-blink">+12.5%</span>
 </div>
-<div class="flex-1 bg-white rounded-lg p-3 text-center">
+</div>
+<div class="bg-white rounded-lg p-3 text-center">
 <p class="text-xs text-gray-500 mb-1">Total Products</p>
 <p class="text-lg font-bold text-primary"><span id="totalProducts" data-target="12389">0</span></p>
+<div class="flex items-center justify-center mt-1">
+<i class="ri-line-chart-line text-blue-500 text-xs"></i>
+<span class="text-[10px] text-blue-500 animate-blink">신뢰도 99.9%</span>
+</div>
+</div>
+</div>
+<div class="mt-2 bg-white rounded-lg p-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-2">
+<i class="ri-shield-star-line text-primary"></i>
+<span class="text-xs">시스템 상태</span>
+</div>
+<div class="flex items-center space-x-2">
+<span class="flex items-center space-x-1">
+<span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
+<span class="text-[10px] text-gray-600">블록체인</span>
+</span>
+<span class="flex items-center space-x-1">
+<span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
+<span class="text-[10px] text-gray-600">IoT센서</span>
+</span>
+<span class="flex items-center space-x-1">
+<span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
+<span class="text-[10px] text-gray-600">AI분석</span>
+</span>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -890,13 +968,34 @@ TXID: 0x7f9e8d7c6b5a4e3d2c1b0a9f8e7d6c5b4a3f2e1d0c9b8a7f6e5d4c3b2a1f0
 </section>
 </main>
 <!-- 하단 시스템 정보 -->
-<div class="px-4 py-3 bg-[#F0F3EB] mt-8">
-<div class="flex items-center justify-between text-xs text-gray-500">
+<div class="px-4 py-4 bg-[#F0F3EB] mt-8">
+<div class="flex items-center justify-between text-xs text-gray-500 mb-2">
 <div class="flex items-center space-x-2">
 <i class="ri-shield-check-line"></i>
 <span>인증된 이력추적 시스템</span>
 </div>
-<span>v1.0.25</span>
+<span>v2.5.18 Enterprise</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-3 text-[10px]">
+<span class="flex items-center space-x-1">
+<i class="ri-checkbox-circle-fill text-green-500"></i>
+<span>ISO 27001</span>
+</span>
+<span class="flex items-center space-x-1">
+<i class="ri-checkbox-circle-fill text-green-500"></i>
+<span>HACCP</span>
+</span>
+<span class="flex items-center space-x-1">
+<i class="ri-checkbox-circle-fill text-green-500"></i>
+<span>FDA</span>
+</span>
+</div>
+<div class="flex items-center space-x-2">
+<img src="https://readdy.ai/api/search-image?query=blockchain%20technology%20icon%2C%20minimalist%2C%20modern%2C%20tech%20style&width=16&height=16&seq=12&orientation=squarish" alt="Blockchain" class="w-4 h-4">
+<img src="https://readdy.ai/api/search-image?query=AI%20technology%20icon%2C%20minimalist%2C%20modern%2C%20tech%20style&width=16&height=16&seq=13&orientation=squarish" alt="AI" class="w-4 h-4">
+<img src="https://readdy.ai/api/search-image?query=IoT%20sensor%20icon%2C%20minimalist%2C%20modern%2C%20tech%20style&width=16&height=16&seq=14&orientation=squarish" alt="IoT" class="w-4 h-4">
+</div>
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
@@ -983,7 +1082,23 @@ icon.classList.add('icon-spin');
 </script>
 <script id="counter-script">
 document.addEventListener('DOMContentLoaded', function() {
+function updateRandomData() {
+  setInterval(() => {
+    const temp = document.querySelector('.text-primary:contains("3.2°C")');
+    if(temp) {
+      const newTemp = (3 + Math.random() * 0.4).toFixed(1);
+      temp.textContent = `${newTemp}°C`;
+    }
+    
+    const humidity = document.querySelector('.font-medium:contains("%")');
+    if(humidity) {
+      const newHumidity = Math.floor(83 + Math.random() * 4);
+      humidity.textContent = `${newHumidity}%`;
+    }
+  }, 3000);
+}
 function animateCounter(element, target) {
+updateRandomData();
 let current = 0;
 const increment = Math.ceil(target / 100);
 const duration = 2000;
