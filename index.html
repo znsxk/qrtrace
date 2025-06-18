@@ -142,21 +142,29 @@ transform: rotate(360deg);
 </head>
 <body class="bg-[#F9F8F6] text-[#3A332A]">
 <!-- 상단 네비게이션 -->
-<nav class="fixed top-0 w-full bg-white shadow-md z-50 px-4 py-3 flex items-center justify-between">
-<div class="flex items-center">
-<span class="font-['Pacifico'] text-xl text-primary">logo</span>
+<nav class="fixed top-0 w-full bg-white shadow-md z-50 px-4 py-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-2">
+<div class="w-8 h-8 flex items-center justify-center bg-[#F0F3EB] rounded-full">
+<i class="ri-shield-check-line text-primary"></i>
+</div>
+<div>
+<h1 class="text-sm font-medium text-secondary">이력추적 관리시스템</h1>
+<p class="text-xs text-gray-500">Product Tracking System v1.0</p>
+</div>
 </div>
 <div class="flex items-center space-x-2">
-<button class="w-8 h-8 flex items-center justify-center text-secondary">
-<i class="ri-share-line ri-lg"></i>
+<button class="w-8 h-8 flex items-center justify-center bg-[#F0F3EB] rounded-full text-primary">
+<i class="ri-file-copy-line"></i>
 </button>
-<button class="w-8 h-8 flex items-center justify-center text-secondary">
-<i class="ri-more-2-fill ri-lg"></i>
+<button class="w-8 h-8 flex items-center justify-center bg-[#F0F3EB] rounded-full text-primary">
+<i class="ri-printer-line"></i>
 </button>
+</div>
 </div>
 </nav>
 <!-- 메인 컨텐츠 -->
-<main class="pt-16 pb-20">
+<main class="pt-16 pb-6">
 <!-- Hero 섹션 -->
 <section class="relative w-full overflow-hidden">
 <div class="bg-[#F0F3EB] p-4 pt-6">
@@ -266,7 +274,19 @@ transform: rotate(360deg);
 </div>
 <h2 class="text-xl font-bold mb-4">능이버섯의 여정</h2>
 <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-<img src="https://readdy.ai/api/search-image?query=elegant%20map%20illustration%20showing%20journey%20route%20from%20Pyeongchang%20to%20Seoul%2C%20South%20Korea%2C%20minimalist%20design%2C%20clean%20lines%2C%20subtle%20green%20and%20brown%20tones%2C%20premium%20quality%2C%20route%20marked%20with%20dotted%20line%20and%20location%20pins&width=400&height=200&seq=8&orientation=landscape" alt="능이버섯 여정 지도" class="w-full h-40 object-cover rounded mb-4">
+<div class="relative w-full h-48 mb-4 overflow-hidden rounded-lg">
+<img src="https://readdy.ai/api/search-image?query=luxury%20elegant%20minimalist%20map%20illustration%2C%20East%20Asia%20region%20focused%2C%20Seoul%20marked%20on%20Korean%20Peninsula%20right%20side%2C%20Yunnan%20Province%20in%20China%20left%20side%2C%20emerald%20green%20color%20scheme%20with%20gold%20accents%2C%20dotted%20flight%20path%20from%20Seoul%20to%20Yunnan%20in%20metallic%20gold%2C%20modern%20sophisticated%20cartography%20style%2C%20clean%20design%20with%20subtle%20topographic%20details%2C%20premium%20aesthetic&width=400&height=240&seq=11&orientation=landscape" alt="능이버섯 여정 지도" class="w-full h-full object-cover">
+<div class="absolute top-0 left-0 w-full h-full">
+<div class="absolute right-[15%] top-[35%] flex flex-col items-center">
+<div class="w-3 h-3 bg-primary rounded-full shadow-lg"></div>
+<span class="text-xs font-medium mt-1 bg-white/80 px-2 py-0.5 rounded">Seoul</span>
+</div>
+<div class="absolute left-[25%] top-[45%] flex flex-col items-center">
+<div class="w-3 h-3 bg-primary rounded-full shadow-lg"></div>
+<span class="text-xs font-medium mt-1 bg-white/80 px-2 py-0.5 rounded">Yunnan</span>
+</div>
+</div>
+</div>
 <div class="relative pl-10">
 <div class="timeline-line"></div>
 <!-- 수확 단계 -->
@@ -275,10 +295,41 @@ transform: rotate(360deg);
 <i class="ri-plant-line ri-lg text-white"></i>
 </div>
 <div class="bg-white rounded-lg shadow-sm p-4">
-<h3 class="font-bold">수확</h3>
-<p class="text-sm text-gray-600">2025년 6월 15일</p>
-<p class="mt-2 text-sm">강원도 평창군 자연 환경에서 유기농 방식으로 재배된 능이버섯을 수작업으로 수확했습니다.</p>
-<img src="https://static.readdy.ai/image/0e9da3c112c844ecf2bdb86da3cdd9ee/63e728df8b768932c9ffbbbcde482d37.jpeg" alt="수확 과정" class="w-full h-32 object-cover rounded mt-3">
+<div class="flex items-center justify-between mb-2">
+<h3 class="font-bold">수확 프로세스 완료</h3>
+<span class="text-xs bg-[#F0F3EB] text-primary px-2 py-1 rounded-full">STEP 01</span>
+</div>
+<div class="flex items-center justify-between mb-3">
+<p class="text-sm text-gray-600">작업 일시: 2025년 6월 15일 08:30</p>
+<span class="text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full">검증 완료</span>
+</div>
+<div class="bg-gray-50 p-3 rounded-lg mb-3">
+<div class="grid grid-cols-2 gap-3 text-sm">
+<div>
+<p class="text-gray-500">작업 위치</p>
+<p class="font-medium">강원도 평창군 대관령면</p>
+</div>
+<div>
+<p class="text-gray-500">작업자 ID</p>
+<p class="font-medium">HAR-2506-089</p>
+</div>
+<div>
+<p class="text-gray-500">수확량</p>
+<p class="font-medium">127.5kg</p>
+</div>
+<div>
+<p class="text-gray-500">품질 등급</p>
+<p class="font-medium text-primary">Premium</p>
+</div>
+</div>
+</div>
+<div class="flex items-center text-xs text-gray-500">
+<i class="ri-checkbox-circle-fill text-green-500 mr-1"></i>
+유기농 인증 재배지 확인
+<span class="mx-2">|</span>
+<i class="ri-checkbox-circle-fill text-green-500 mr-1"></i>
+작업자 인증 완료
+</div>
 </div>
 </div>
 <!-- 검사 단계 -->
@@ -287,13 +338,45 @@ transform: rotate(360deg);
 <i class="ri-test-tube-line ri-lg text-white"></i>
 </div>
 <div class="bg-white rounded-lg shadow-sm p-4">
-<h3 class="font-bold">품질 검사</h3>
-<p class="text-sm text-gray-600">2025년 6월 16일</p>
-<p class="mt-2 text-sm">식품안전관리인증(HACCP) 기준에 따라 철저한 품질 검사를 진행했습니다. 농약 및 중금속 불검출 확인.</p>
-<div class="flex justify-end mt-2">
-<button class="flex items-center text-primary text-sm font-medium cursor-pointer">
-<span>검사 결과 보기</span>
-<i class="ri-file-list-3-line ri-lg ml-1"></i>
+<div class="flex items-center justify-between mb-2">
+<h3 class="font-bold">품질 검사 완료</h3>
+<span class="text-xs bg-[#F0F3EB] text-primary px-2 py-1 rounded-full">STEP 02</span>
+</div>
+<div class="flex items-center justify-between mb-3">
+<p class="text-sm text-gray-600">검사 일시: 2025년 6월 16일 10:15</p>
+<span class="text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full">적합 판정</span>
+</div>
+<div class="bg-gray-50 p-3 rounded-lg mb-3">
+<div class="grid grid-cols-2 gap-3 text-sm">
+<div>
+<p class="text-gray-500">검사 기관</p>
+<p class="font-medium">식품안전관리인증원</p>
+</div>
+<div>
+<p class="text-gray-500">검사 번호</p>
+<p class="font-medium">QC-2506-127</p>
+</div>
+<div>
+<p class="text-gray-500">검사 항목</p>
+<p class="font-medium">463개 항목</p>
+</div>
+<div>
+<p class="text-gray-500">검출 기준</p>
+<p class="font-medium">0.05mg/kg</p>
+</div>
+</div>
+</div>
+<div class="flex justify-between items-center">
+<div class="flex items-center text-xs text-gray-500">
+<i class="ri-shield-check-line text-primary mr-1"></i>
+HACCP 인증
+<span class="mx-2">|</span>
+<i class="ri-shield-check-line text-primary mr-1"></i>
+ISO 22000
+</div>
+<button class="flex items-center text-primary text-xs font-medium">
+<span>검사 성적서</span>
+<i class="ri-external-link-line ml-1"></i>
 </button>
 </div>
 </div>
@@ -304,10 +387,41 @@ transform: rotate(360deg);
 <i class="ri-inbox-archive-line ri-lg text-white"></i>
 </div>
 <div class="bg-white rounded-lg shadow-sm p-4">
-<h3 class="font-bold">포장</h3>
-<p class="text-sm text-gray-600">2025년 6월 17일</p>
-<p class="mt-2 text-sm">신선도 유지를 위한 특수 포장재를 사용하여 개별 포장 처리했습니다. 친환경 재활용 가능한 소재를 사용합니다.</p>
-<img src="https://static.readdy.ai/image/0e9da3c112c844ecf2bdb86da3cdd9ee/e60ded0a702f2c1db481cff2cee7a4f3.jpeg" alt="포장 과정" class="w-full h-32 object-cover rounded mt-3">
+<div class="flex items-center justify-between mb-2">
+<h3 class="font-bold">포장 공정 완료</h3>
+<span class="text-xs bg-[#F0F3EB] text-primary px-2 py-1 rounded-full">STEP 03</span>
+</div>
+<div class="flex items-center justify-between mb-3">
+<p class="text-sm text-gray-600">작업 일시: 2025년 6월 17일 14:45</p>
+<span class="text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full">규격 적합</span>
+</div>
+<div class="bg-gray-50 p-3 rounded-lg mb-3">
+<div class="grid grid-cols-2 gap-3 text-sm">
+<div>
+<p class="text-gray-500">포장 규격</p>
+<p class="font-medium">500g/단위</p>
+</div>
+<div>
+<p class="text-gray-500">포장 번호</p>
+<p class="font-medium">PKG-2506-445</p>
+</div>
+<div>
+<p class="text-gray-500">포장재 타입</p>
+<p class="font-medium">진공팩 + 보냉백</p>
+</div>
+<div>
+<p class="text-gray-500">작업자 ID</p>
+<p class="font-medium">PKG-2506-023</p>
+</div>
+</div>
+</div>
+<div class="flex items-center text-xs text-gray-500">
+<i class="ri-recycle-line text-primary mr-1"></i>
+친환경 포장재
+<span class="mx-2">|</span>
+<i class="ri-shield-check-line text-primary mr-1"></i>
+식품접촉 인증
+</div>
 </div>
 </div>
 <!-- 유통 단계 -->
@@ -316,13 +430,42 @@ transform: rotate(360deg);
 <i class="ri-truck-line ri-lg text-white"></i>
 </div>
 <div class="bg-white rounded-lg shadow-sm p-4">
-<h3 class="font-bold">냉장 유통</h3>
-<p class="text-sm text-gray-600">2025년 6월 18일</p>
-<p class="mt-2 text-sm">전 과정 2~5°C 냉장 유통으로 신선도를 유지합니다. 실시간 온도 모니터링 시스템을 통해 품질 관리.</p>
-<div class="flex justify-end mt-2">
-<button class="flex items-center text-primary text-sm font-medium cursor-pointer">
-<span>온도 로그 확인</span>
-<i class="ri-line-chart-line ri-lg ml-1"></i>
+<div class="flex items-center justify-between mb-2">
+<h3 class="font-bold">콜드체인 유통 진행중</h3>
+<span class="text-xs bg-[#F0F3EB] text-primary px-2 py-1 rounded-full">STEP 04</span>
+</div>
+<div class="flex items-center justify-between mb-3">
+<p class="text-sm text-gray-600">출발 일시: 2025년 6월 18일 06:30</p>
+<span class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full">운송중</span>
+</div>
+<div class="bg-gray-50 p-3 rounded-lg mb-3">
+<div class="grid grid-cols-2 gap-3 text-sm">
+<div>
+<p class="text-gray-500">차량 번호</p>
+<p class="font-medium">냉장-A-2506</p>
+</div>
+<div>
+<p class="text-gray-500">운송장 번호</p>
+<p class="font-medium">TRC-2506-089</p>
+</div>
+<div>
+<p class="text-gray-500">현재 온도</p>
+<p class="font-medium text-primary">3.2°C</p>
+</div>
+<div>
+<p class="text-gray-500">습도</p>
+<p class="font-medium">85%</p>
+</div>
+</div>
+</div>
+<div class="flex justify-between items-center">
+<div class="flex items-center text-xs text-gray-500">
+<i class="ri-temp-cold-line text-primary mr-1"></i>
+온도 추적 활성화
+</div>
+<button class="flex items-center text-primary text-xs font-medium">
+<span>실시간 모니터링</span>
+<i class="ri-external-link-line ml-1"></i>
 </button>
 </div>
 </div>
@@ -333,9 +476,41 @@ transform: rotate(360deg);
 <i class="ri-store-2-line ri-lg text-white"></i>
 </div>
 <div class="bg-white rounded-lg shadow-sm p-4">
-<h3 class="font-bold">매장 입고</h3>
-<p class="text-sm text-gray-600">2025년 6월 18일</p>
-<p class="mt-2 text-sm">오늘 아침, 여러분의 식탁에 오르기 위해 매장에 입고되었습니다. 최상의 신선도로 제공됩니다.</p>
+<div class="flex items-center justify-between mb-2">
+<h3 class="font-bold">매장 입고 처리</h3>
+<span class="text-xs bg-[#F0F3EB] text-primary px-2 py-1 rounded-full">STEP 05</span>
+</div>
+<div class="flex items-center justify-between mb-3">
+<p class="text-sm text-gray-600">입고 일시: 2025년 6월 18일 08:45</p>
+<span class="text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full">입고 완료</span>
+</div>
+<div class="bg-gray-50 p-3 rounded-lg mb-3">
+<div class="grid grid-cols-2 gap-3 text-sm">
+<div>
+<p class="text-gray-500">입고 지점</p>
+<p class="font-medium">강남 프리미엄점</p>
+</div>
+<div>
+<p class="text-gray-500">입고 번호</p>
+<p class="font-medium">RCV-2506-127</p>
+</div>
+<div>
+<p class="text-gray-500">검수자 ID</p>
+<p class="font-medium">STF-2506-045</p>
+</div>
+<div>
+<p class="text-gray-500">보관 온도</p>
+<p class="font-medium">2.8°C</p>
+</div>
+</div>
+</div>
+<div class="flex items-center text-xs text-gray-500">
+<i class="ri-checkbox-circle-fill text-green-500 mr-1"></i>
+품질 검수 완료
+<span class="mx-2">|</span>
+<i class="ri-checkbox-circle-fill text-green-500 mr-1"></i>
+신선도 확인
+</div>
 </div>
 </div>
 </div>
@@ -346,17 +521,17 @@ transform: rotate(360deg);
 <h2 class="text-xl font-bold mb-4">생산지 정보</h2>
 <div class="bg-white rounded-lg shadow-md overflow-hidden">
 <div class="h-[240px] relative">
-<img src="https://public.readdy.ai/gen_page/map_placeholder_1280x720.png" alt="지도" class="w-full h-full object-cover">
+<img src="https://static.readdy.ai/image/0e9da3c112c844ecf2bdb86da3cdd9ee/6e284fb6fab9f5af7223080e7c923022.jpeg" alt="샹그릴라 지도" class="w-full h-full object-cover">
 <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center bg-primary rounded-full shadow-lg">
 <i class="ri-map-pin-2-fill ri-lg text-white"></i>
 </div>
 </div>
 <div class="p-4">
-<h3 class="font-bold">청정 평창 능이농장</h3>
-<p class="text-sm text-gray-600 mt-1">강원도 평창군 대관령면 올림픽로 123</p>
+<h3 class="font-bold">운남성 샹그릴라 능이시장</h3>
+<p class="text-sm text-gray-600 mt-1">중국 운남성 디칭 티베트족 자치주 샹그릴라시</p>
 <div class="flex items-center mt-3 text-sm">
 <div class="flex items-center mr-4">
-<i class="ri-government-line ri-lg mr-1 text-primary"></i>
+<i class="ri-store-2-line ri-lg mr-1 text-primary"></i>
 <span>지리적표시제 인증</span>
 </div>
 <div class="flex items-center">
@@ -714,35 +889,16 @@ TXID: 0x7f9e8d7c6b5a4e3d2c1b0a9f8e7d6c5b4a3f2e1d0c9b8a7f6e5d4c3b2a1f0
 </div>
 </section>
 </main>
-<!-- 하단 탭바 -->
-<nav class="fixed bottom-0 w-full bg-white shadow-[0_-2px_10px_rgba(0,0,0,0.05)] z-50">
-<div class="grid grid-cols-4 h-16">
-<a href="#" class="flex flex-col items-center justify-center text-primary">
-<div class="w-6 h-6 flex items-center justify-center">
-<i class="ri-home-5-fill ri-lg"></i>
+<!-- 하단 시스템 정보 -->
+<div class="px-4 py-3 bg-[#F0F3EB] mt-8">
+<div class="flex items-center justify-between text-xs text-gray-500">
+<div class="flex items-center space-x-2">
+<i class="ri-shield-check-line"></i>
+<span>인증된 이력추적 시스템</span>
 </div>
-<span class="text-xs mt-1">홈</span>
-</a>
-<a href="#" class="flex flex-col items-center justify-center text-gray-500">
-<div class="w-6 h-6 flex items-center justify-center">
-<i class="ri-store-2-line ri-lg"></i>
+<span>v1.0.25</span>
 </div>
-<span class="text-xs mt-1">스토어</span>
-</a>
-<a href="#" class="flex flex-col items-center justify-center text-gray-500">
-<div class="w-6 h-6 flex items-center justify-center">
-<i class="ri-search-line ri-lg"></i>
 </div>
-<span class="text-xs mt-1">검색</span>
-</a>
-<a href="#" class="flex flex-col items-center justify-center text-gray-500">
-<div class="w-6 h-6 flex items-center justify-center">
-<i class="ri-user-line ri-lg"></i>
-</div>
-<span class="text-xs mt-1">마이</span>
-</a>
-</div>
-</nav>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
 <script id="accordion-script">
 document.addEventListener('DOMContentLoaded', function() {
