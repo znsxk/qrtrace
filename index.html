@@ -13,6 +13,37 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
 <style>
 :where([class^="ri-"])::before { content: "\f3c2"; }
+@keyframes marquee {
+0% {
+transform: translateX(-100%);
+opacity: 0;
+}
+10% {
+opacity: 1;
+}
+90% {
+opacity: 1;
+}
+100% {
+transform: translateX(100%);
+opacity: 0;
+}
+}
+@keyframes blink {
+0%, 100% {
+opacity: 1;
+}
+50% {
+opacity: 0.3;
+}
+}
+.animate-marquee {
+animation: marquee 10s linear infinite;
+white-space: nowrap;
+}
+.animate-blink {
+animation: blink 2s ease-in-out infinite;
+}
 body {
 font-family: 'Noto Sans KR', sans-serif;
 background-color: #F9F8F6;
@@ -23,8 +54,89 @@ top: 24px;
 bottom: 0;
 left: 16px;
 width: 2px;
-background-color: #D2CFC5;
+background: linear-gradient(to bottom, #70824F 0%, #A5B88B 100%);
 z-index: 0;
+}
+@keyframes fadeInUp {
+from {
+opacity: 0;
+transform: translateY(20px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+@keyframes fadeInRight {
+from {
+opacity: 0;
+transform: translateX(-20px);
+}
+to {
+opacity: 1;
+transform: translateX(0);
+}
+}
+@keyframes pulse {
+0% {
+transform: scale(1);
+}
+50% {
+transform: scale(1.05);
+}
+100% {
+transform: scale(1);
+}
+}
+@keyframes shimmer {
+0% {
+background-position: -200% 0;
+}
+100% {
+background-position: 200% 0;
+}
+}
+.animate-fadeInUp {
+animation: fadeInUp 0.6s ease-out forwards;
+opacity: 0;
+}
+.animate-fadeInRight {
+animation: fadeInRight 0.6s ease-out forwards;
+opacity: 0;
+}
+.animate-pulse {
+animation: pulse 2s infinite;
+}
+.shimmer-bg {
+background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+background-size: 200% 100%;
+animation: shimmer 2s infinite;
+}
+.section-fade {
+opacity: 0;
+transform: translateY(20px);
+transition: all 0.6s ease-out;
+}
+.section-fade.visible {
+opacity: 1;
+transform: translateY(0);
+}
+.card-hover {
+transition: transform 0.3s ease;
+}
+.card-hover:hover {
+transform: translateY(-2px);
+}
+.icon-spin {
+animation: spin 10s linear infinite;
+}
+@keyframes spin {
+from {
+transform: rotate(0deg);
+}
+to {
+transform: rotate(360deg);
+}
 }
 </style>
 </head>
@@ -46,49 +158,115 @@ z-index: 0;
 <!-- 메인 컨텐츠 -->
 <main class="pt-16 pb-20">
 <!-- Hero 섹션 -->
-<section class="relative w-full h-[240px] overflow-hidden">
-<img src="https://static.readdy.ai/image/0e9da3c112c844ecf2bdb86da3cdd9ee/d1721b7217b3305f67d9d954acde6fd4.jpeg" alt="능이버섯" class="w-full h-full object-cover">
-<div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-[rgba(0,0,0,0.7)] to-transparent p-4">
-<h1 class="text-white text-2xl font-bold">능이버섯 이력추적 시스템</h1>
-<p class="text-white text-sm mt-1">자연 그대로의 맛과 영양</p>
+<section class="relative w-full overflow-hidden">
+<div class="bg-[#F0F3EB] p-4 pt-6">
+<div class="flex items-center justify-between mb-4">
+<div>
+<p class="text-xs text-primary mb-1">Product Tracking System v1.0</p>
+<h1 class="text-xl font-bold text-secondary">능이버섯 이력추적 시스템</h1>
+</div>
+<div class="w-12 h-12 flex items-center justify-center bg-white rounded-full shadow-md">
+<i class="ri-qr-scan-2-line ri-lg text-primary"></i>
+</div>
+</div>
+<div class="bg-white rounded-lg p-3 flex items-center space-x-2 mb-4">
+<i class="ri-search-line text-gray-400"></i>
+<input type="text" placeholder="제품번호 또는 QR코드 검색" class="w-full text-sm border-none focus:outline-none">
+</div>
+<div class="flex space-x-2 mb-4">
+<div class="flex-1 bg-white rounded-lg p-3 text-center">
+<p class="text-xs text-gray-500 mb-1">Today's Scan</p>
+<p class="text-lg font-bold text-primary"><span id="todayScan" data-target="2471">0</span></p>
+</div>
+<div class="flex-1 bg-white rounded-lg p-3 text-center">
+<p class="text-xs text-gray-500 mb-1">Total Products</p>
+<p class="text-lg font-bold text-primary"><span id="totalProducts" data-target="12389">0</span></p>
+</div>
+</div>
 </div>
 </section>
 <!-- 제품 정보 카드 -->
-<section class="px-4 -mt-6 relative z-10">
-<div class="bg-white rounded-lg shadow-md p-4">
+<section class="px-4 relative z-10">
+<div class="bg-white rounded-lg shadow-md p-4 border border-[#E8ECE3]">
 <div class="flex justify-between items-start">
 <div>
-<span class="inline-block px-2 py-1 bg-primary text-white text-xs rounded-full mb-2">인증완료</span>
+<div class="flex items-center space-x-2 mb-2">
+<span class="inline-flex items-center px-2 py-1 bg-[#F0F3EB] text-primary text-xs rounded-full">
+<i class="ri-shield-check-line mr-1"></i>인증완료
+</span>
+<span class="inline-flex items-center px-2 py-1 bg-[#F0F3EB] text-xs rounded-full">
+<i class="ri-time-line mr-1"></i>5분 전 스캔
+</span>
+</div>
 <h2 class="text-lg font-bold">프리미엄 자연산 능이버섯</h2>
-<p class="text-base font-mono tracking-wider text-secondary">제품번호: NK-2306-0937</p>
+<div class="flex items-center mt-1">
+<p class="text-sm font-mono tracking-wider text-primary">ID: NK-2306-0937</p>
+<i class="ri-checkbox-circle-fill text-primary ml-2"></i>
 </div>
-<div class="w-16 h-16 flex items-center justify-center bg-[#F0F3EB] rounded-full">
-<i class="ri-checkbox-circle-fill ri-2x text-primary"></i>
+</div>
+<div class="w-16 h-16 flex items-center justify-center">
+<img src="https://readdy.ai/api/search-image?query=QR%20code%20design%2C%20modern%2C%20minimalist%2C%20tech%20style%2C%20clean%20lines&width=64&height=64&seq=10&orientation=squarish" alt="QR Code" class="w-full h-full object-contain">
 </div>
 </div>
-<div class="grid grid-cols-2 gap-4 mt-4">
-<div class="border-r border-gray-200">
+<div class="mt-4">
+<div class="bg-[#F9F8F6] rounded-lg p-3">
+<div class="grid grid-cols-2 gap-4">
+<div class="flex items-center space-x-2">
+<div class="w-8 h-8 flex items-center justify-center bg-white rounded-full shadow-sm">
+<i class="ri-map-pin-line text-primary"></i>
+</div>
+<div>
 <p class="text-xs text-gray-500">원산지</p>
 <p class="font-medium">운남성</p>
 </div>
+</div>
+<div class="flex items-center space-x-2">
+<div class="w-8 h-8 flex items-center justify-center bg-white rounded-full shadow-sm">
+<i class="ri-calendar-line text-primary"></i>
+</div>
 <div>
 <p class="text-xs text-gray-500">수확일</p>
-<p class="font-medium">2025년 6월 15일</p>
+<p class="font-medium">2025.06.15</p>
 </div>
-<div class="border-r border-gray-200">
+</div>
+<div class="flex items-center space-x-2">
+<div class="w-8 h-8 flex items-center justify-center bg-white rounded-full shadow-sm">
+<i class="ri-scales-line text-primary"></i>
+</div>
+<div>
 <p class="text-xs text-gray-500">중량</p>
 <p class="font-medium">500g</p>
 </div>
+</div>
+<div class="flex items-center space-x-2">
+<div class="w-8 h-8 flex items-center justify-center bg-white rounded-full shadow-sm">
+<i class="ri-timer-line text-primary"></i>
+</div>
 <div>
 <p class="text-xs text-gray-500">유통기한</p>
-<p class="font-medium">2025년 7월 2일</p>
+<p class="font-medium">2025.07.02</p>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 </section>
 <!-- 타임라인 섹션 -->
 <section class="px-4 mt-6">
+<div class="overflow-hidden mb-2">
+<div class="animate-marquee text-lg flex items-center justify-center">
+<span class="text-gray-600">( 마지막 업데이트 </span>
+<span class="text-primary font-bold mx-1 animate-blink">2025.05.30</span>
+<span class="text-gray-600 mx-1">|</span>
+<span class="text-primary font-bold animate-blink">19:00</span>
+<span class="text-gray-600"> )</span>
+</div>
+</div>
 <h2 class="text-xl font-bold mb-4">능이버섯의 여정</h2>
+<div class="bg-white rounded-lg shadow-md p-6 mb-6">
+<img src="https://readdy.ai/api/search-image?query=elegant%20map%20illustration%20showing%20journey%20route%20from%20Pyeongchang%20to%20Seoul%2C%20South%20Korea%2C%20minimalist%20design%2C%20clean%20lines%2C%20subtle%20green%20and%20brown%20tones%2C%20premium%20quality%2C%20route%20marked%20with%20dotted%20line%20and%20location%20pins&width=400&height=200&seq=8&orientation=landscape" alt="능이버섯 여정 지도" class="w-full h-40 object-cover rounded mb-4">
 <div class="relative pl-10">
 <div class="timeline-line"></div>
 <!-- 수확 단계 -->
@@ -161,6 +339,7 @@ z-index: 0;
 </div>
 </div>
 </div>
+</div>
 </section>
 <!-- 지도 섹션 -->
 <section class="mt-8 px-4">
@@ -187,21 +366,75 @@ z-index: 0;
 </div>
 </div>
 </div>
+</div>
 </section>
-<!-- 스토리 섹션 -->
+<!-- 생산 데이터 섹션 -->
 <section class="mt-8 px-4">
-<h2 class="text-xl font-bold mb-4">농장 이야기</h2>
+<h2 class="text-xl font-bold mb-4">생산 데이터 분석</h2>
 <div class="bg-white rounded-lg shadow-md p-4">
-<div class="flex items-start mb-4">
-<img src="https://readdy.ai/api/search-image?query=portrait%20of%20Korean%20farmer%2C%20middle-aged%20man%2C%20authentic%2C%20natural%20lighting%2C%20outdoors%2C%20mushroom%20farm%20in%20background%2C%20genuine%20smile%2C%20weathered%20face%2C%20wearing%20work%20clothes%2C%20detailed%2C%20high%20quality&width=100&height=100&seq=4&orientation=squarish" alt="농부 초상" class="w-16 h-16 rounded-full object-cover mr-3">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center">
+<div class="w-10 h-10 flex items-center justify-center bg-[#F0F3EB] rounded-full mr-3">
+<i class="ri-database-2-line text-primary"></i>
+</div>
 <div>
-<h3 class="font-bold">김영호 농장주</h3>
-<p class="text-sm text-gray-600">20년 경력의 능이버섯 전문가</p>
+<h3 class="font-bold">생산 현황</h3>
+<p class="text-xs text-gray-500">최근 30일 데이터</p>
 </div>
 </div>
-<p class="text-sm mb-4">"우리 농장은 3대째 이어온 가업입니다. 자연과 함께 호흡하며 최고 품질의 능이버섯을 재배하기 위해 노력하고 있습니다. 화학 비료나 농약을 일절 사용하지 않고, 자연 그대로의 맛을 전달하고자 합니다."</p>
-<img src="https://static.readdy.ai/image/0e9da3c112c844ecf2bdb86da3cdd9ee/0da8de1c1a9efa4cc36540d6308f8d8e.jpeg" alt="농장 전경" class="w-full h-40 object-cover rounded-lg mb-4">
-<p class="text-sm">강원도 평창의 맑은 공기와 깨끗한 물, 그리고 최적의 기후 조건에서 자란 우리 능이버섯은 특유의 향과 식감으로 많은 분들께 사랑받고 있습니다. 매일 아침 직접 수확한 신선한 버섯만을 제공합니다.</p>
+<button class="text-primary text-sm flex items-center">
+<i class="ri-download-line mr-1"></i>
+<span>CSV</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-sm">
+<thead>
+<tr class="bg-[#F0F3EB] text-primary">
+<th class="py-2 px-3 text-left rounded-l-lg">날짜</th>
+<th class="py-2 px-3 text-right">생산량(kg)</th>
+<th class="py-2 px-3 text-right">온도(°C)</th>
+<th class="py-2 px-3 text-right rounded-r-lg">습도(%)</th>
+</tr>
+</thead>
+<tbody class="text-gray-600">
+<tr class="border-b border-gray-100">
+<td class="py-2 px-3">2025-06-18</td>
+<td class="py-2 px-3 text-right">42.5</td>
+<td class="py-2 px-3 text-right">18.2</td>
+<td class="py-2 px-3 text-right">85</td>
+</tr>
+<tr class="border-b border-gray-100">
+<td class="py-2 px-3">2025-06-17</td>
+<td class="py-2 px-3 text-right">38.7</td>
+<td class="py-2 px-3 text-right">17.8</td>
+<td class="py-2 px-3 text-right">83</td>
+</tr>
+<tr>
+<td class="py-2 px-3">2025-06-16</td>
+<td class="py-2 px-3 text-right">45.2</td>
+<td class="py-2 px-3 text-right">18.5</td>
+<td class="py-2 px-3 text-right">87</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="mt-6">
+<div class="flex items-center justify-between mb-2">
+<h4 class="font-medium">월간 생산량 추이</h4>
+<div class="flex items-center space-x-2 text-xs">
+<span class="flex items-center">
+<span class="w-2 h-2 bg-primary rounded-full mr-1"></span>
+생산량
+</span>
+<span class="flex items-center">
+<span class="w-2 h-2 bg-[#A5B88B] rounded-full mr-1"></span>
+목표치
+</span>
+</div>
+</div>
+<div id="productionChart" class="w-full h-48"></div>
+</div>
 </div>
 </section>
 <!-- 신뢰성 섹션 -->
@@ -281,29 +514,201 @@ TXID: 0x7f9e8d7c6b5a4e3d2c1b0a9f8e7d6c5b4a3f2e1d0c9b8a7f6e5d4c3b2a1f0
 </div>
 </div>
 </div>
+</div>
 </section>
-<!-- 추천 제품 섹션 -->
+<!-- 품질 분석 섹션 -->
 <section class="mt-8 px-4 mb-20">
-<h2 class="text-xl font-bold mb-4">함께 구매하면 좋은 제품</h2>
+<h2 class="text-xl font-bold mb-4">품질 분석 리포트</h2>
+<div class="bg-white rounded-lg shadow-md p-4">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center">
+<div class="w-10 h-10 flex items-center justify-center bg-[#F0F3EB] rounded-full mr-3">
+<i class="ri-file-chart-line text-primary"></i>
+</div>
+<div>
+<h3 class="font-bold">영양 성분 분석</h3>
+<p class="text-xs text-gray-500">최근 검사 결과</p>
+</div>
+</div>
+<span class="text-xs text-primary px-2 py-1 bg-[#F0F3EB] rounded-full">2025.06.18</span>
+</div>
+<div class="space-y-4 mb-6">
 <div class="grid grid-cols-2 gap-4">
-<div class="bg-white rounded-lg shadow-sm overflow-hidden cursor-pointer">
-<div class="h-32 overflow-hidden">
-<img src="https://readdy.ai/api/search-image?query=dried%20shiitake%20mushrooms%2C%20premium%20quality%2C%20natural%20wooden%20background%2C%20organic%20food%2C%20Korean%20traditional%20ingredient%2C%20detailed%20texture%2C%20soft%20lighting%2C%20gourmet%20cooking%20ingredient&width=200&height=150&seq=6&orientation=landscape" alt="표고버섯" class="w-full h-full object-cover">
+<div class="bg-[#F0F3EB] p-3 rounded-lg animate-fadeInUp" style="animation-delay: 0.1s">
+<div class="flex items-center justify-between mb-2">
+<span class="text-sm">수분</span>
+<span class="text-sm font-medium">89.3g/100g</span>
 </div>
-<div class="p-3">
-<h3 class="font-medium text-sm">유기농 표고버섯</h3>
-<p class="text-xs text-gray-600 mt-1">강원도 평창</p>
-<p class="text-primary font-bold mt-1">12,000원</p>
+<div class="h-2 bg-white rounded-full overflow-hidden">
+<div class="nutrition-bar h-full bg-primary rounded-full" data-value="89" style="width: 0%"></div>
 </div>
 </div>
-<div class="bg-white rounded-lg shadow-sm overflow-hidden cursor-pointer">
-<div class="h-32 overflow-hidden">
-<img src="https://readdy.ai/api/search-image?query=premium%20Korean%20ginseng%20roots%2C%20high%20quality%2C%20natural%20wooden%20background%2C%20organic%20food%2C%20traditional%20Korean%20medicine%20ingredient%2C%20detailed%20texture%2C%20soft%20lighting%2C%20premium%20product&width=200&height=150&seq=7&orientation=landscape" alt="산삼" class="w-full h-full object-cover">
+<div class="bg-[#F0F3EB] p-3 rounded-lg animate-fadeInUp" style="animation-delay: 0.2s">
+<div class="flex items-center justify-between mb-2">
+<span class="text-sm">단백질</span>
+<span class="text-sm font-medium">3.9g/100g</span>
 </div>
-<div class="p-3">
-<h3 class="font-medium text-sm">청정 산양삼</h3>
-<p class="text-xs text-gray-600 mt-1">강원도 평창</p>
-<p class="text-primary font-bold mt-1">25,000원</p>
+<div class="h-2 bg-white rounded-full overflow-hidden">
+<div class="nutrition-bar h-full bg-primary rounded-full" data-value="78" style="width: 0%"></div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-[#F0F3EB] p-3 rounded-lg animate-fadeInUp" style="animation-delay: 0.3s">
+<div class="flex items-center justify-between mb-2">
+<span class="text-sm">식이섬유</span>
+<span class="text-sm font-medium">4.2g/100g</span>
+</div>
+<div class="h-2 bg-white rounded-full overflow-hidden">
+<div class="nutrition-bar h-full bg-primary rounded-full" data-value="84" style="width: 0%"></div>
+</div>
+</div>
+<div class="bg-[#F0F3EB] p-3 rounded-lg animate-fadeInUp" style="animation-delay: 0.4s">
+<div class="flex items-center justify-between mb-2">
+<span class="text-sm">탄수화물</span>
+<span class="text-sm font-medium">5.1g/100g</span>
+</div>
+<div class="h-2 bg-white rounded-full overflow-hidden">
+<div class="nutrition-bar h-full bg-primary rounded-full" data-value="72" style="width: 0%"></div>
+</div>
+</div>
+</div>
+<div class="bg-white p-4 rounded-lg border border-[#E8ECE3]">
+<h4 class="text-sm font-medium mb-3">미네랄 & 비타민</h4>
+<div class="grid grid-cols-3 gap-3">
+<div class="text-center">
+<div class="w-12 h-12 mx-auto mb-2 rounded-full bg-[#F0F3EB] flex items-center justify-center animate-pulse">
+<i class="ri-copper-coin-line text-primary ri-lg"></i>
+</div>
+<p class="text-xs font-medium">칼륨</p>
+<p class="text-xs text-gray-500">304mg</p>
+</div>
+<div class="text-center">
+<div class="w-12 h-12 mx-auto mb-2 rounded-full bg-[#F0F3EB] flex items-center justify-center">
+<i class="ri-sun-line text-primary ri-lg"></i>
+</div>
+<p class="text-xs font-medium">비타민 D</p>
+<p class="text-xs text-gray-500">7.7μg</p>
+</div>
+<div class="text-center">
+<div class="w-12 h-12 mx-auto mb-2 rounded-full bg-[#F0F3EB] flex items-center justify-center">
+<i class="ri-drop-line text-primary ri-lg"></i>
+</div>
+<p class="text-xs font-medium">나이아신</p>
+<p class="text-xs text-gray-500">3.5mg</p>
+</div>
+</div>
+</div>
+<div class="bg-[#F0F3EB] p-4 rounded-lg">
+<div class="flex items-center justify-between mb-3">
+<h4 class="text-sm font-medium">일일 권장량 대비</h4>
+<span class="text-xs text-primary px-2 py-1 bg-white rounded-full">100g 기준</span>
+</div>
+<div class="space-y-2">
+<div class="flex items-center text-sm">
+<span class="w-24 text-gray-600">단백질</span>
+<div class="flex-1 h-2 mx-3 bg-white rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 7%"></div>
+</div>
+<span class="text-xs">7%</span>
+</div>
+<div class="flex items-center text-sm">
+<span class="w-24 text-gray-600">식이섬유</span>
+<div class="flex-1 h-2 mx-3 bg-white rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 17%"></div>
+</div>
+<span class="text-xs">17%</span>
+</div>
+<div class="flex items-center text-sm">
+<span class="w-24 text-gray-600">비타민 D</span>
+<div class="flex-1 h-2 mx-3 bg-white rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 77%"></div>
+</div>
+<span class="text-xs">77%</span>
+</div>
+</div>
+</div>
+</div>
+<div class="border-t border-gray-100 pt-4">
+<div class="flex items-center justify-between mb-3">
+<h4 class="font-medium">안전성 검사 결과</h4>
+<button class="text-primary text-sm flex items-center">
+<i class="ri-file-list-3-line mr-1"></i>
+<span>상세보기</span>
+</button>
+</div>
+<div class="space-y-4">
+<div class="bg-[#F0F3EB] p-4 rounded-lg">
+<div class="flex items-center justify-between mb-3">
+<div>
+<h4 class="font-medium">잔류농약 검사 결과</h4>
+<p class="text-xs text-gray-500 mt-1">총 463종의 잔류농약 검사 완료</p>
+</div>
+<div class="flex flex-col items-end">
+<span class="text-xs text-primary px-2 py-1 bg-white rounded-full mb-1">463종 검사</span>
+<span class="text-xs text-green-500">전 항목 불검출</span>
+</div>
+</div>
+<div id="pesticideChart" class="w-full h-56 mb-3"></div>
+<div class="grid grid-cols-2 gap-3 text-sm">
+<div class="bg-white p-3 rounded-lg">
+<div class="flex items-center justify-between mb-1">
+<span class="text-gray-600">검사번호</span>
+<span class="font-medium">BFL20250505-0186</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-gray-600">검사일자</span>
+<span class="font-medium">2025-05-28</span>
+</div>
+</div>
+<div class="bg-white p-3 rounded-lg">
+<div class="flex items-center justify-between mb-1">
+<span class="text-gray-600">검출기준</span>
+<span class="font-medium">0.05mg/kg</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-gray-600">검사결과</span>
+<span class="text-green-500 font-medium">불검출</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between text-sm">
+<span class="flex items-center">
+<i class="ri-checkbox-circle-fill text-green-500 mr-2"></i>
+중금속 검사
+</span>
+<span class="text-green-500">적합</span>
+</div>
+<div class="flex items-center justify-between text-sm">
+<span class="flex items-center">
+<i class="ri-checkbox-circle-fill text-green-500 mr-2"></i>
+미생물 검사
+</span>
+<span class="text-green-500">적합</span>
+</div>
+</div>
+</div>
+<div class="mt-6">
+<div class="flex items-center justify-between mb-3">
+<h4 class="font-medium">품질 등급 평가</h4>
+<span class="text-primary font-bold">A+</span>
+</div>
+<div class="bg-[#F0F3EB] p-3 rounded-lg">
+<div class="grid grid-cols-3 gap-2 text-center text-xs">
+<div>
+<div class="font-medium mb-1">크기 균일도</div>
+<div class="text-primary">98%</div>
+</div>
+<div>
+<div class="font-medium mb-1">신선도</div>
+<div class="text-primary">95%</div>
+</div>
+<div>
+<div class="font-medium mb-1">향도</div>
+<div class="text-primary">97%</div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -338,6 +743,7 @@ TXID: 0x7f9e8d7c6b5a4e3d2c1b0a9f8e7d6c5b4a3f2e1d0c9b8a7f6e5d4c3b2a1f0
 </a>
 </div>
 </nav>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
 <script id="accordion-script">
 document.addEventListener('DOMContentLoaded', function() {
 const toggles = [
@@ -360,17 +766,241 @@ icon: document.getElementById('temperature-icon')
 toggles.forEach(item => {
 item.toggle.addEventListener('click', function() {
 const isHidden = item.content.classList.contains('hidden');
-// 닫기 모든 아코디언
 toggles.forEach(innerItem => {
 innerItem.content.classList.add('hidden');
 innerItem.icon.classList.remove('transform', 'rotate-180');
 });
-// 클릭한 아코디언 열기
 if (isHidden) {
 item.content.classList.remove('hidden');
 item.icon.classList.add('transform', 'rotate-180');
 }
 });
+});
+});
+</script>
+<script id="nutrition-animation">
+document.addEventListener('DOMContentLoaded', function() {
+const observer = new IntersectionObserver((entries) => {
+entries.forEach(entry => {
+if (entry.isIntersecting) {
+const bars = entry.target.querySelectorAll('.nutrition-bar');
+bars.forEach((bar, index) => {
+setTimeout(() => {
+const value = bar.getAttribute('data-value');
+bar.style.transition = 'width 1.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+bar.style.width = value + '%';
+}, index * 200);
+});
+observer.unobserve(entry.target);
+}
+});
+}, { threshold: 0.5 });
+const nutritionSection = document.querySelector('.space-y-4.mb-6');
+if (nutritionSection) {
+observer.observe(nutritionSection);
+}
+});
+</script>
+<script id="animation-script">
+document.addEventListener('DOMContentLoaded', function() {
+const sections = document.querySelectorAll('section');
+const observer = new IntersectionObserver((entries) => {
+entries.forEach(entry => {
+if (entry.isIntersecting) {
+entry.target.classList.add('visible');
+}
+});
+}, { threshold: 0.2 });
+sections.forEach(section => {
+section.classList.add('section-fade');
+observer.observe(section);
+});
+const cards = document.querySelectorAll('.bg-white.rounded-lg');
+cards.forEach(card => {
+card.classList.add('card-hover');
+});
+const icons = document.querySelectorAll('.ri-database-2-line, .ri-link-m');
+icons.forEach(icon => {
+icon.classList.add('icon-spin');
+});
+});
+</script>
+<script id="counter-script">
+document.addEventListener('DOMContentLoaded', function() {
+function animateCounter(element, target) {
+let current = 0;
+const increment = Math.ceil(target / 100);
+const duration = 2000;
+const interval = duration / (target / increment);
+const counter = setInterval(() => {
+current += increment;
+if (current >= target) {
+current = target;
+clearInterval(counter);
+}
+element.textContent = current.toLocaleString();
+}, interval);
+}
+let visitCount = parseInt(localStorage.getItem('visitCount') || '0');
+visitCount++;
+localStorage.setItem('visitCount', visitCount);
+const todayScan = document.getElementById('todayScan');
+const totalProducts = document.getElementById('totalProducts');
+const baseToday = 2471;
+const baseTotal = 12389;
+todayScan.dataset.target = (baseToday + visitCount).toString();
+totalProducts.dataset.target = (baseTotal + visitCount).toString();
+function startCounters() {
+animateCounter(todayScan, parseInt(todayScan.dataset.target));
+animateCounter(totalProducts, parseInt(totalProducts.dataset.target));
+}
+startCounters();
+setInterval(() => {
+const currentToday = parseInt(todayScan.dataset.target);
+const currentTotal = parseInt(totalProducts.dataset.target);
+todayScan.dataset.target = (currentToday + 1).toString();
+totalProducts.dataset.target = (currentTotal + 1).toString();
+todayScan.textContent = parseInt(todayScan.dataset.target).toLocaleString();
+totalProducts.textContent = parseInt(totalProducts.dataset.target).toLocaleString();
+}, 30000);
+});
+</script>
+<script id="chart-script">
+document.addEventListener('DOMContentLoaded', function() {
+const productionChart = echarts.init(document.getElementById('productionChart'));
+const pesticideChart = echarts.init(document.getElementById('pesticideChart'));
+const pesticideOption = {
+grid: {
+top: 40,
+right: 20,
+bottom: 60,
+left: 60
+},
+tooltip: {
+trigger: 'axis',
+formatter: '{b}: {c}%'
+},
+xAxis: {
+type: 'category',
+data: ['유기인계', '카바메이트계', '피레스로이드계', '유기염소계', '기타'],
+axisLabel: {
+interval: 0,
+fontSize: 10,
+rotate: 45,
+color: '#666'
+},
+axisTick: {
+alignWithLabel: true
+}
+},
+yAxis: {
+type: 'value',
+name: '검출률',
+max: 100,
+axisLabel: {
+formatter: '{value}%',
+color: '#666'
+},
+splitLine: {
+lineStyle: {
+color: '#eee'
+}
+}
+},
+series: [{
+data: [0, 0, 0, 0, 0],
+type: 'bar',
+barWidth: '40%',
+itemStyle: {
+color: '#70824F',
+borderRadius: [4, 4, 0, 0]
+},
+label: {
+show: true,
+position: 'top',
+formatter: '{c}%',
+color: '#666',
+fontSize: 12
+},
+animationDelay: function (idx) {
+return idx * 100;
+},
+animationDuration: 1000,
+animationEasing: 'elasticOut'
+}]
+};
+pesticideChart.setOption(pesticideOption);
+const option = {
+grid: {
+top: 10,
+right: 10,
+bottom: 20,
+left: 40,
+},
+xAxis: {
+type: 'category',
+data: ['5월', '6월', '7월', '8월', '9월', '10월'],
+axisLine: {
+lineStyle: {
+color: '#ddd'
+}
+},
+},
+yAxis: {
+type: 'value',
+axisLine: {
+show: false
+},
+splitLine: {
+lineStyle: {
+color: '#f0f0f0'
+}
+}
+},
+series: [
+{
+name: '생산량',
+type: 'line',
+smooth: true,
+data: [320, 350, 380, 420, 390, 450],
+itemStyle: {
+color: '#70824F'
+},
+areaStyle: {
+color: {
+type: 'linear',
+x: 0,
+y: 0,
+x2: 0,
+y2: 1,
+colorStops: [{
+offset: 0,
+color: 'rgba(112, 130, 79, 0.2)'
+}, {
+offset: 1,
+color: 'rgba(112, 130, 79, 0)'
+}]
+}
+}
+},
+{
+name: '목표치',
+type: 'line',
+smooth: true,
+data: [300, 320, 350, 380, 400, 420],
+itemStyle: {
+color: '#A5B88B'
+},
+lineStyle: {
+type: 'dashed'
+}
+}
+]
+};
+productionChart.setOption(option);
+window.addEventListener('resize', function() {
+productionChart.resize();
+pesticideChart.resize();
 });
 });
 </script>
