@@ -3,522 +3,402 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>능이버섯 블록체인 이력추적 시스템</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>능이버섯 이력추적</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>tailwind.config={theme:{extend:{colors:{primary:'#70824F',secondary:'#3A332A'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
     <style>
+        :where([class^="ri-"])::before { content: "\f3c2"; }
         body {
             font-family: 'Noto Sans KR', sans-serif;
-            background-color: #F8F8F8; /* Refined Neutrals: Soft Off-White */
-            color: #333333; /* Deep Charcoal for main text */
+            background-color: #F9F8F6;
         }
-        h1, h2, h3 {
-            color: #333333; /* Deep Charcoal for headings */
-        }
-        .system-container {
-            border: 1px solid #E0E0E0; /* Subtle light gray border for main frame */
-            border-radius: 10px; /* Slightly softer rounded corners */
-            background-color: #FFFFFF; /* Clean White background for content area */
-            padding: 1.5rem;
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05); /* Softer, more diffused shadow */
-        }
-        .system-card {
-            background-color: #FFFFFF;
-            border-radius: 8px; /* Slightly softer than before */
-            box-shadow: 0 3px 9px rgba(0, 0, 0, 0.08); /* More diffused shadow */
-            border: 1px solid #EAEAEA; /* Very light, subtle border */
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        .system-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Flowchart Styling */
-        .flowchart-group {
-            position: relative;
-            padding: 0 1rem; /* Adjust padding for smaller screens */
-        }
-        .flowchart-group::before { /* Main vertical line */
-            content: '';
+        .timeline-line {
             position: absolute;
-            left: 50%; /* Center the line */
-            top: 0;
+            top: 24px;
             bottom: 0;
-            width: 3px;
-            background-color: #C0C0C0; /* Muted Gray */
-            transform: translateX(-50%);
-            z-index: 1; /* Below content */
-        }
-        .flowchart-item {
-            position: relative;
-            z-index: 2; /* Above the main line */
-            display: flex; /* Default to vertical stack for mobile */
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 2.5rem; /* Spacing between items on mobile */
-        }
-        .flowchart-item:last-child {
-            margin-bottom: 0;
-        }
-        .flowchart-item .step-indicator {
-            background-color: #007BFF; /* Deep Sapphire Blue */
-            color: white;
-            border-radius: 50%;
-            width: 3.5rem;
-            height: 3.5rem;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 1.5rem;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
-            position: relative; /* For z-index over line */
-            z-index: 3;
-            margin-bottom: 1rem; /* Space below indicator on mobile */
-        }
-        .flowchart-item .icon-wrapper {
-            flex-shrink: 0;
-            width: 3rem;
-            height: 3rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            color: #555555;
-            margin-bottom: 1rem; /* Space below icon on mobile */
-        }
-        .flowchart-item .item-content {
-            flex-grow: 1;
-            width: 100%; /* Full width on mobile */
-            text-align: center; /* Center content on mobile */
-        }
-
-        @media (min-width: 768px) { /* Tablet and Desktop layout */
-            .flowchart-group {
-                padding: 0 2rem;
-            }
-            .flowchart-item {
-                display: grid;
-                grid-template-columns: 1fr auto 1fr; /* Left content, indicator/line, right content */
-                align-items: center;
-                gap: 0;
-                margin-bottom: 3rem; /* More spacing on desktop */
-            }
-            .flowchart-item:nth-child(odd) { /* Left content, indicator, right icon */
-                grid-template-areas: "content indicator icon";
-            }
-            .flowchart-item:nth-child(even) { /* Left icon, indicator, right content */
-                grid-template-areas: "icon indicator content";
-            }
-            .flowchart-item .system-card {
-                grid-area: content;
-                text-align: left; /* Align text left in cards */
-            }
-            .flowchart-item:nth-child(even) .system-card {
-                text-align: right; /* Align text right for even cards */
-            }
-            .flowchart-item .step-indicator {
-                grid-area: indicator;
-                margin: 0; /* Remove vertical margin as grid handles spacing */
-            }
-            .flowchart-item .icon-wrapper {
-                grid-area: icon;
-                margin: 0; /* Remove vertical margin as grid handles spacing */
-            }
-        }
-        /* End Flowchart Styling */
-
-        /* Chart Styling */
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 300px; /* Adjusted max-width for better fit */
-            margin-left: auto;
-            margin-right: auto;
-            height: 300px; /* Adjusted height */
-            max-height: 350px; /* Adjusted max-height */
-        }
-        .chart-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            font-weight: 900;
-            color: #333333;
-        }
-
-        /* Modal Styling */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.9);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 50;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-        .modal-overlay.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-        .modal-content {
-            background-color: #FFFFFF;
-            padding: 1.5rem;
-            border-radius: 8px;
-            max-width: 90vw;
-            max-height: 90vh;
-            transform: scale(0.95);
-            transition: transform 0.3s ease;
-            border: 1px solid #E0E0E0;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-            overflow: auto; /* Enable scrolling for large images */
-        }
-        .modal-overlay.visible .modal-content {
-            transform: scale(1);
-        }
-        .modal-content img {
-            max-width: 100%;
-            max-height: 100%;
-            display: block; /* Ensure no extra space below image */
-            margin: auto; /* Center image if smaller than modal */
-        }
-
-        /* Specific font for Traceability ID */
-        .trace-id-font {
-            font-family: 'Space Mono', monospace;
+            left: 16px;
+            width: 2px;
+            background-color: #D2CFC5;
+            z-index: 0;
         }
     </style>
 </head>
-<body class="text-gray-800">
-
-    <div class="container mx-auto p-4 md:p-8 max-w-4xl system-container">
-
-        <!-- Hero Section -->
-        <header class="text-center mb-10 border-b pb-6 border-gray-200">
-            <div class="inline-block bg-[#007BFF] text-white rounded-full px-4 py-2 text-sm font-bold mb-4 shadow-md">
-                <span class="inline-block animate-pulse mr-2">🔗</span>블록체인 검증 완료
-            </div>
-            <h1 class="text-4xl md:text-5xl font-black text-[#333333] mb-2">건조 능이버섯 통합 이력추적 시스템</h1>
-            <p class="text-lg text-gray-600">Sarcodon Aspratus Traceability System</p>
-        </header>
-
-        <!-- Verification Section -->
-        <section class="system-card p-6 md:p-8 mb-12 text-center">
-            <p class="text-lg font-medium text-gray-700 mb-2">이력추적 문서 번호 (Traceability ID)</p>
-            <p class="text-5xl md:text-6xl font-bold text-[#007BFF] trace-id-font tracking-widest mb-4">KFA-BT-20250417-CN01</p>
-            <div class="inline-flex items-center bg-blue-100 text-blue-800 text-base font-semibold px-4 py-2 rounded-full border border-blue-300">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                데이터 무결성 검증 완료
-            </div>
-            <p class="mt-5 text-gray-600 max-w-3xl mx-auto text-sm">
-                본 이력 정보는 한국산림청(KFA) 프로토콜에 따라 블록체인에 기록되어 위·변조가 불가능하며, 투명하고 신뢰할 수 있는 정보를 제공합니다.
-            </p>
-        </section>
-
-        <!-- Product Overview -->
-        <section class="system-card p-6 md:p-8 mb-12">
-            <div class="grid md:grid-cols-3 gap-6 items-center">
-                <div class="md:col-span-1 border border-gray-200 rounded-md overflow-hidden">
-                    <img src="https://placehold.co/400x400/C0C0C0/333333?text=Neungi" alt="건조 능이버섯" class="object-cover w-full h-48 md:h-full">
-                </div>
-                <div class="md:col-span-2">
-                    <h2 class="text-2xl font-bold text-[#333333] mb-4 border-b pb-2 border-gray-200">제품 정보 요약</h2>
-                    <div class="grid grid-cols-2 gap-4 text-sm">
-                        <div>
-                            <p class="font-semibold text-gray-500">제품명</p>
-                            <p class="font-bold text-gray-800">건조 능이버섯</p>
-                        </div>
-                        <div>
-                            <p class="font-semibold text-gray-500">학명</p>
-                            <p class="font-bold text-gray-800">Sarcodon aspratus</p>
-                        </div>
-                        <div>
-                            <p class="font-semibold text-gray-500">품종</p>
-                            <p class="font-bold text-gray-800">운남성 산지종</p>
-                        </div>
-                        <div>
-                            <p class="font-semibold text-gray-500">원산지</p>
-                            <p class="font-bold text-gray-800">중국 운남성</p>
-                        </div>
-                         <div>
-                            <p class="font-semibold text-gray-500">수입자</p>
-                            <p class="font-bold text-gray-800">(주)아이와푸드</p>
-                        </div>
-                        <div>
-                            <p class="font-semibold text-gray-500">유통기한</p>
-                            <p class="font-bold text-red-600">2025년 09월 14일</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Journey Section -->
-        <section class="mb-12">
-            <h2 class="text-3xl font-extrabold text-center mb-8 text-[#333333]">능이버섯의 여정: 공급망 추적</h2>
-            <div class="flowchart-group">
-                <!-- Step 1 -->
-                <div class="flowchart-item">
-                    <div class="item-content md:col-span-1">
-                        <div class="system-card p-6">
-                            <h3 class="text-xl font-bold mb-2">자연 채취</h3>
-                            <p class="text-gray-600 text-sm">중국 운남성 시솽반나 열대우림(해발 1,250m)에서 허가된 채취인이 직접 손으로 채취했습니다.</p>
-                        </div>
-                    </div>
-                    <div class="step-indicator">01</div>
-                    <div class="icon-wrapper">🌲</div>
-                </div>
-
-                <!-- Step 2 -->
-                <div class="flowchart-item">
-                    <div class="icon-wrapper">🚢</div>
-                    <div class="step-indicator">02</div>
-                    <div class="item-content md:col-span-1">
-                        <div class="system-card p-6">
-                            <h3 class="text-xl font-bold mb-2">수입 및 통관</h3>
-                            <p class="text-gray-600 text-sm">인천항을 통해 정식 수입(신고번호: 24HSLI0241L0260002)되었으며, 엄격한 검역 절차를 통과했습니다.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Step 3 -->
-                <div class="flowchart-item">
-                    <div class="item-content md:col-span-1">
-                        <div class="system-card p-6">
-                            <h3 class="text-xl font-bold mb-2">안전성 검사</h3>
-                            <p class="text-gray-600 text-sm">식약처 공인 연구소에서 위생 검사를 통과하고, (주)바이오푸드랩에서 463종 잔류농약 검사를 통과했습니다.</p>
-                        </div>
-                    </div>
-                    <div class="step-indicator">03</div>
-                    <div class="icon-wrapper">🔬</div>
-                </div>
-
-                <!-- Step 4 -->
-                <div class="flowchart-item">
-                    <div class="icon-wrapper">🚚</div>
-                    <div class="step-indicator">04</div>
-                    <div class="item-content md:col-span-1">
-                        <div class="system-card p-6">
-                            <h3 class="text-xl font-bold mb-2">콜드체인 보관 및 유통</h3>
-                            <p class="text-gray-600 text-sm">경기도 용인시 스마트 콜드체인 시설에서 0~5°C로 보관되며, 전문 콜드 물류 파트너를 통해 배송됩니다.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- NEW: Blockchain Data Verification Status Section -->
-         <section class="mb-12">
-    <h2 class="text-3xl font-extrabold text-center mb-8">블록체인 데이터 검증 현황</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div class="system-card p-6 text-center">
-        <p class="text-sm font-semibold text-gray-500 mb-2">총 데이터 블록 수</p>
-        <p id="blockCount" class="text-4xl md:text-5xl font-bold text-[#007BFF] trace-id-font">0</p>
-        <p class="text-xs text-gray-600 mt-2">안정적인 데이터 기록</p>
-      </div>
-      <div class="system-card p-6 text-center">
-        <p class="text-sm font-semibold text-gray-500 mb-2">검증된 거래 수</p>
-        <p id="txCount" class="text-4xl md:text-5xl font-bold text-[#28A745] trace-id-font">0</p>
-        <p class="text-xs text-gray-600 mt-2">완벽한 데이터 무결성</p>
-      </div>
-      <div class="system-card p-6 text-center">
-        <p class="text-sm font-semibold text-gray-500 mb-2">마지막 업데이트</p>
-        <p id="lastUpdate" class="text-2xl md:text-3xl font-bold text-[#C0C0C0] trace-id-font">
-          2025.06.15 19:00 KST
-        </p>
-        <p class="text-xs text-gray-600 mt-2">실시간 정보 제공</p>
-      </div>
-    </div>
-  </section>
-
-        <!-- Safety & Quality Dashboard -->
-        <section class="mb-12">
-            <h2 class="text-3xl font-extrabold text-center mb-8 text-[#333333]">안전 & 품질 대시보드</h2>
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="system-card p-6 text-center">
-                    <h3 class="text-xl font-bold mb-4">잔류농약 검사 (463종)</h3>
-                    <div class="chart-container">
-                        <canvas id="pesticideChart"></canvas>
-                        <div class="chart-text text-3xl md:text-4xl">
-                            463종<br><span class="text-[#28A745]">PASS</span>
-                        </div>
-                    </div>
-                     <p class="text-sm text-gray-500 mt-4">국내 공인 검사기관 (주)바이오푸드랩에서 463종의 광범위한 잔류농약 검사를 통과하여 안전성이 입증되었습니다.</p>
-                </div>
-                <div class="system-card p-6">
-                    <h3 class="text-xl font-bold mb-4 text-center">주요 위생 검사</h3>
-                    <canvas id="hygieneChart"></canvas>
-                    <p class="text-sm text-gray-500 mt-4 text-center">식약처 공인 수입 검사 연구소에서 주요 식중독균 및 독소 검사를 통과했습니다.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Document Library -->
-        <section>
-             <h2 class="text-3xl font-extrabold text-center mb-8 text-[#333333]">증명서 보관함</h2>
-             <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-                 <div class="document-card system-card p-4 text-center cursor-pointer" onclick="showModal('https://placehold.co/600x800/E0E0E0/333333?text=China+Quarantine+Cert.')">
-                     <p class="text-4xl mb-2">🇨🇳</p>
-                     <p class="font-bold text-sm">중국 검역증</p>
-                 </div>
-                 <div class="document-card system-card p-4 text-center cursor-pointer" onclick="showModal('https://placehold.co/600x800/E0E0E0/333333?text=Import+Declaration')">
-                     <p class="text-4xl mb-2">🇰🇷</p>
-                     <p class="font-bold text-sm">수입 신고 확인필증</p>
-                 </div>
-                 <div class="document-card system-card p-4 text-center cursor-pointer" onclick="showModal('https://placehold.co/600x800/E0E0E0/333333?text=Pesticide+Test+Report')">
-                     <p class="text-4xl mb-2">🔬</p>
-                     <p class="font-bold text-sm">잔류농약 성적서</p>
-                 </div>
-             </div>
-        </section>
-    </div>
-
-    <div id="imageModal" class="modal-overlay" onclick="hideModal()">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <img id="modalImage" src="" alt="증명서 이미지">
+<body class="bg-[#F9F8F6] text-[#3A332A]">
+    <!-- 상단 네비게이션 -->
+    <nav class="fixed top-0 w-full bg-white shadow-md z-50 px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center">
+            <span class="font-['Pacifico'] text-xl text-primary">logo</span>
         </div>
-    </div>
+        <div class="flex items-center space-x-2">
+            <button class="w-8 h-8 flex items-center justify-center text-secondary">
+                <i class="ri-share-line ri-lg"></i>
+            </button>
+            <button class="w-8 h-8 flex items-center justify-center text-secondary">
+                <i class="ri-more-2-fill ri-lg"></i>
+            </button>
+        </div>
+    </nav>
 
-    <footer class="text-center p-8 text-gray-500 text-xs">
-        <p>본 이력 정보는 한국산림청(KFA) 프로토콜 #KFA-BT-20250417-CN01에 따라 블록체인으로 검증되었습니다.</p>
-        <p>&copy; 2025 Iwa Food Co., Ltd. All Rights Reserved.</p>
-    </footer>
+    <!-- 메인 컨텐츠 -->
+    <main class="pt-16 pb-20">
+        <!-- Hero 섹션 -->
+        <section class="relative w-full h-[240px] overflow-hidden">
+            <img src="https://readdy.ai/api/search-image?query=premium%20organic%20neungi%20mushrooms%2C%20high%20quality%20food%20photography%2C%20natural%20setting%2C%20earthy%20tones%2C%20top%20view%20of%20fresh%20mushrooms%20on%20wooden%20surface%2C%20soft%20natural%20lighting%2C%20detailed%20texture%2C%20gourmet%20ingredient%2C%20organic%20farming%2C%20Korean%20specialty%20mushroom&width=800&height=500&seq=1&orientation=landscape" alt="능이버섯" class="w-full h-full object-cover">
+            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-[rgba(0,0,0,0.7)] to-transparent p-4">
+                <h1 class="text-white text-2xl font-bold">강원도 청정 능이버섯</h1>
+                <p class="text-white text-sm mt-1">자연 그대로의 맛과 영양</p>
+            </div>
+        </section>
 
-    <script>
-        const modal = document.getElementById('imageModal');
-        const modalImage = document.getElementById('modalImage');
+        <!-- 제품 정보 카드 -->
+        <section class="px-4 -mt-6 relative z-10">
+            <div class="bg-white rounded-lg shadow-md p-4">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <span class="inline-block px-2 py-1 bg-primary text-white text-xs rounded-full mb-2">인증완료</span>
+                        <h2 class="text-lg font-bold">프리미엄 자연산 능이버섯</h2>
+                        <p class="text-sm text-gray-600">제품번호: NM-20250618-A</p>
+                    </div>
+                    <div class="w-16 h-16 flex items-center justify-center bg-[#F0F3EB] rounded-full">
+                        <i class="ri-checkbox-circle-fill ri-2x text-primary"></i>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4 mt-4">
+                    <div class="border-r border-gray-200">
+                        <p class="text-xs text-gray-500">원산지</p>
+                        <p class="font-medium">강원도 평창군</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500">수확일</p>
+                        <p class="font-medium">2025년 6월 15일</p>
+                    </div>
+                    <div class="border-r border-gray-200">
+                        <p class="text-xs text-gray-500">중량</p>
+                        <p class="font-medium">500g</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500">유통기한</p>
+                        <p class="font-medium">2025년 7월 2일</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        function showModal(src) {
-            modalImage.src = src;
-            modal.classList.add('visible');
-        }
+        <!-- 타임라인 섹션 -->
+        <section class="px-4 mt-6">
+            <h2 class="text-xl font-bold mb-4">능이버섯의 여정</h2>
+            <div class="relative pl-10">
+                <div class="timeline-line"></div>
+                
+                <!-- 수확 단계 -->
+                <div class="relative mb-8">
+                    <div class="absolute left-[-36px] w-10 h-10 rounded-full bg-primary flex items-center justify-center z-10">
+                        <i class="ri-plant-line ri-lg text-white"></i>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-sm p-4">
+                        <h3 class="font-bold">수확</h3>
+                        <p class="text-sm text-gray-600">2025년 6월 15일</p>
+                        <p class="mt-2 text-sm">강원도 평창군 자연 환경에서 유기농 방식으로 재배된 능이버섯을 수작업으로 수확했습니다.</p>
+                        <img src="https://readdy.ai/api/search-image?query=harvesting%20mushrooms%2C%20farmer%20hands%20carefully%20picking%20mushrooms%2C%20organic%20farming%2C%20natural%20environment%2C%20forest%20floor%2C%20soft%20natural%20lighting%2C%20detailed%2C%20Korean%20farming&width=400&height=200&seq=2&orientation=landscape" alt="수확 과정" class="w-full h-32 object-cover rounded mt-3">
+                    </div>
+                </div>
+                
+                <!-- 검사 단계 -->
+                <div class="relative mb-8">
+                    <div class="absolute left-[-36px] w-10 h-10 rounded-full bg-primary flex items-center justify-center z-10">
+                        <i class="ri-test-tube-line ri-lg text-white"></i>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-sm p-4">
+                        <h3 class="font-bold">품질 검사</h3>
+                        <p class="text-sm text-gray-600">2025년 6월 16일</p>
+                        <p class="mt-2 text-sm">식품안전관리인증(HACCP) 기준에 따라 철저한 품질 검사를 진행했습니다. 농약 및 중금속 불검출 확인.</p>
+                        <div class="flex justify-end mt-2">
+                            <button class="flex items-center text-primary text-sm font-medium cursor-pointer">
+                                <span>검사 결과 보기</span>
+                                <i class="ri-file-list-3-line ri-lg ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 포장 단계 -->
+                <div class="relative mb-8">
+                    <div class="absolute left-[-36px] w-10 h-10 rounded-full bg-primary flex items-center justify-center z-10">
+                        <i class="ri-inbox-archive-line ri-lg text-white"></i>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-sm p-4">
+                        <h3 class="font-bold">포장</h3>
+                        <p class="text-sm text-gray-600">2025년 6월 17일</p>
+                        <p class="mt-2 text-sm">신선도 유지를 위한 특수 포장재를 사용하여 개별 포장 처리했습니다. 친환경 재활용 가능한 소재를 사용합니다.</p>
+                        <img src="https://readdy.ai/api/search-image?query=eco-friendly%20packaging%20of%20mushrooms%2C%20sustainable%20packaging%2C%20hands%20carefully%20packaging%20premium%20mushrooms%2C%20clean%20environment%2C%20professional%20food%20packaging%2C%20detailed%2C%20high%20quality&width=400&height=200&seq=3&orientation=landscape" alt="포장 과정" class="w-full h-32 object-cover rounded mt-3">
+                    </div>
+                </div>
+                
+                <!-- 유통 단계 -->
+                <div class="relative mb-8">
+                    <div class="absolute left-[-36px] w-10 h-10 rounded-full bg-primary flex items-center justify-center z-10">
+                        <i class="ri-truck-line ri-lg text-white"></i>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-sm p-4">
+                        <h3 class="font-bold">냉장 유통</h3>
+                        <p class="text-sm text-gray-600">2025년 6월 18일</p>
+                        <p class="mt-2 text-sm">전 과정 2~5°C 냉장 유통으로 신선도를 유지합니다. 실시간 온도 모니터링 시스템을 통해 품질 관리.</p>
+                        <div class="flex justify-end mt-2">
+                            <button class="flex items-center text-primary text-sm font-medium cursor-pointer">
+                                <span>온도 로그 확인</span>
+                                <i class="ri-line-chart-line ri-lg ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 매장 입고 단계 -->
+                <div class="relative">
+                    <div class="absolute left-[-36px] w-10 h-10 rounded-full bg-primary flex items-center justify-center z-10">
+                        <i class="ri-store-2-line ri-lg text-white"></i>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-sm p-4">
+                        <h3 class="font-bold">매장 입고</h3>
+                        <p class="text-sm text-gray-600">2025년 6월 18일</p>
+                        <p class="mt-2 text-sm">오늘 아침, 여러분의 식탁에 오르기 위해 매장에 입고되었습니다. 최상의 신선도로 제공됩니다.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        function hideModal() {
-            modal.classList.remove('visible');
-            setTimeout(() => { modalImage.src = ''; }, 300);
-        }
+        <!-- 지도 섹션 -->
+        <section class="mt-8 px-4">
+            <h2 class="text-xl font-bold mb-4">생산지 정보</h2>
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="h-[240px] relative">
+                    <img src="https://public.readdy.ai/gen_page/map_placeholder_1280x720.png" alt="지도" class="w-full h-full object-cover">
+                    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center bg-primary rounded-full shadow-lg">
+                        <i class="ri-map-pin-2-fill ri-lg text-white"></i>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold">청정 평창 능이농장</h3>
+                    <p class="text-sm text-gray-600 mt-1">강원도 평창군 대관령면 올림픽로 123</p>
+                    <div class="flex items-center mt-3 text-sm">
+                        <div class="flex items-center mr-4">
+                            <i class="ri-government-line ri-lg mr-1 text-primary"></i>
+                            <span>지리적표시제 인증</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="ri-award-line ri-lg mr-1 text-primary"></i>
+                            <span>유기농 인증</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const pesticideCtx = document.getElementById('pesticideChart').getContext('2d');
-            new Chart(pesticideCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['검사 통과'],
-                    datasets: [{
-                        data: [100],
-                        backgroundColor: ['#28A745'], /* System UI: Green for PASS */
-                        borderColor: ['#F8F8F8'], /* Match body background */
-                        borderWidth: 5,
-                        circumference: 270,
-                        rotation: 225,
-                    }]
+        <!-- 스토리 섹션 -->
+        <section class="mt-8 px-4">
+            <h2 class="text-xl font-bold mb-4">농장 이야기</h2>
+            <div class="bg-white rounded-lg shadow-md p-4">
+                <div class="flex items-start mb-4">
+                    <img src="https://readdy.ai/api/search-image?query=portrait%20of%20Korean%20farmer%2C%20middle-aged%20man%2C%20authentic%2C%20natural%20lighting%2C%20outdoors%2C%20mushroom%20farm%20in%20background%2C%20genuine%20smile%2C%20weathered%20face%2C%20wearing%20work%20clothes%2C%20detailed%2C%20high%20quality&width=100&height=100&seq=4&orientation=squarish" alt="농부 초상" class="w-16 h-16 rounded-full object-cover mr-3">
+                    <div>
+                        <h3 class="font-bold">김영호 농장주</h3>
+                        <p class="text-sm text-gray-600">20년 경력의 능이버섯 전문가</p>
+                    </div>
+                </div>
+                <p class="text-sm mb-4">"우리 농장은 3대째 이어온 가업입니다. 자연과 함께 호흡하며 최고 품질의 능이버섯을 재배하기 위해 노력하고 있습니다. 화학 비료나 농약을 일절 사용하지 않고, 자연 그대로의 맛을 전달하고자 합니다."</p>
+                <img src="https://readdy.ai/api/search-image?query=beautiful%20mushroom%20farm%20in%20Korea%2C%20natural%20environment%2C%20mountains%20in%20background%2C%20organic%20farming%2C%20wooden%20structures%2C%20traditional%20farming%20methods%2C%20morning%20mist%2C%20serene%20atmosphere%2C%20high%20quality%2C%20detailed&width=400&height=200&seq=5&orientation=landscape" alt="농장 전경" class="w-full h-40 object-cover rounded-lg mb-4">
+                <p class="text-sm">강원도 평창의 맑은 공기와 깨끗한 물, 그리고 최적의 기후 조건에서 자란 우리 능이버섯은 특유의 향과 식감으로 많은 분들께 사랑받고 있습니다. 매일 아침 직접 수확한 신선한 버섯만을 제공합니다.</p>
+            </div>
+        </section>
+
+        <!-- 신뢰성 섹션 -->
+        <section class="mt-8 px-4">
+            <h2 class="text-xl font-bold mb-4">품질 인증 정보</h2>
+            <div class="bg-white rounded-lg shadow-md p-4">
+                <div class="border-b border-gray-200 pb-3 mb-3">
+                    <div class="flex justify-between items-center cursor-pointer" id="certification-toggle">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 flex items-center justify-center bg-[#F0F3EB] rounded-full mr-3">
+                                <i class="ri-file-list-3-line ri-lg text-primary"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-medium">품질 검사 인증서</h3>
+                                <p class="text-xs text-gray-500">2025년 6월 16일 발행</p>
+                            </div>
+                        </div>
+                        <i class="ri-arrow-down-s-line ri-lg text-gray-400" id="certification-icon"></i>
+                    </div>
+                    <div class="mt-3 hidden" id="certification-content">
+                        <p class="text-sm mb-2">식품의약품안전처 인증 검사 결과로, 농약 및 중금속 불검출 확인되었습니다.</p>
+                        <button class="w-full py-2 bg-[#F0F3EB] text-primary rounded-button flex items-center justify-center cursor-pointer">
+                            <i class="ri-file-download-line ri-lg mr-2"></i>
+                            <span>인증서 PDF 다운로드</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="border-b border-gray-200 pb-3 mb-3">
+                    <div class="flex justify-between items-center cursor-pointer" id="blockchain-toggle">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 flex items-center justify-center bg-[#F0F3EB] rounded-full mr-3">
+                                <i class="ri-link-m ri-lg text-primary"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-medium">블록체인 인증 정보</h3>
+                                <p class="text-xs text-gray-500">변조 불가능한 이력 데이터</p>
+                            </div>
+                        </div>
+                        <i class="ri-arrow-down-s-line ri-lg text-gray-400" id="blockchain-icon"></i>
+                    </div>
+                    <div class="mt-3 hidden" id="blockchain-content">
+                        <p class="text-sm mb-2">블록체인 기술로 제품의 모든 이력 정보가 안전하게 보관되어 있습니다.</p>
+                        <div class="bg-gray-100 p-2 rounded text-xs font-mono break-all">
+                            TXID: 0x7f9e8d7c6b5a4e3d2c1b0a9f8e7d6c5b4a3f2e1d0c9b8a7f6e5d4c3b2a1f0
+                        </div>
+                        <button class="w-full mt-2 py-2 bg-[#F0F3EB] text-primary rounded-button flex items-center justify-center cursor-pointer">
+                            <i class="ri-external-link-line ri-lg mr-2"></i>
+                            <span>블록체인 검증 확인</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="flex justify-between items-center cursor-pointer" id="temperature-toggle">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 flex items-center justify-center bg-[#F0F3EB] rounded-full mr-3">
+                                <i class="ri-temp-cold-line ri-lg text-primary"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-medium">콜드체인 온도 로그</h3>
+                                <p class="text-xs text-gray-500">실시간 온도 모니터링 데이터</p>
+                            </div>
+                        </div>
+                        <i class="ri-arrow-down-s-line ri-lg text-gray-400" id="temperature-icon"></i>
+                    </div>
+                    <div class="mt-3 hidden" id="temperature-content">
+                        <p class="text-sm mb-2">유통 전 과정의 온도 데이터로, 2~5°C 사이의 최적 온도 유지를 확인할 수 있습니다.</p>
+                        <div class="h-32 bg-gray-100 rounded flex items-center justify-center">
+                            <div class="text-center">
+                                <i class="ri-line-chart-line ri-3x text-primary mb-2"></i>
+                                <p class="text-xs text-gray-500">온도 차트 데이터</p>
+                            </div>
+                        </div>
+                        <button class="w-full mt-2 py-2 bg-[#F0F3EB] text-primary rounded-button flex items-center justify-center cursor-pointer">
+                            <i class="ri-download-line ri-lg mr-2"></i>
+                            <span>온도 로그 CSV 다운로드</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 추천 제품 섹션 -->
+        <section class="mt-8 px-4 mb-20">
+            <h2 class="text-xl font-bold mb-4">함께 구매하면 좋은 제품</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden cursor-pointer">
+                    <div class="h-32 overflow-hidden">
+                        <img src="https://readdy.ai/api/search-image?query=dried%20shiitake%20mushrooms%2C%20premium%20quality%2C%20natural%20wooden%20background%2C%20organic%20food%2C%20Korean%20traditional%20ingredient%2C%20detailed%20texture%2C%20soft%20lighting%2C%20gourmet%20cooking%20ingredient&width=200&height=150&seq=6&orientation=landscape" alt="표고버섯" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-3">
+                        <h3 class="font-medium text-sm">유기농 표고버섯</h3>
+                        <p class="text-xs text-gray-600 mt-1">강원도 평창</p>
+                        <p class="text-primary font-bold mt-1">12,000원</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden cursor-pointer">
+                    <div class="h-32 overflow-hidden">
+                        <img src="https://readdy.ai/api/search-image?query=premium%20Korean%20ginseng%20roots%2C%20high%20quality%2C%20natural%20wooden%20background%2C%20organic%20food%2C%20traditional%20Korean%20medicine%20ingredient%2C%20detailed%20texture%2C%20soft%20lighting%2C%20premium%20product&width=200&height=150&seq=7&orientation=landscape" alt="산삼" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-3">
+                        <h3 class="font-medium text-sm">청정 산양삼</h3>
+                        <p class="text-xs text-gray-600 mt-1">강원도 평창</p>
+                        <p class="text-primary font-bold mt-1">25,000원</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 하단 탭바 -->
+    <nav class="fixed bottom-0 w-full bg-white shadow-[0_-2px_10px_rgba(0,0,0,0.05)] z-50">
+        <div class="grid grid-cols-4 h-16">
+            <a href="#" class="flex flex-col items-center justify-center text-primary">
+                <div class="w-6 h-6 flex items-center justify-center">
+                    <i class="ri-home-5-fill ri-lg"></i>
+                </div>
+                <span class="text-xs mt-1">홈</span>
+            </a>
+            <a href="#" class="flex flex-col items-center justify-center text-gray-500">
+                <div class="w-6 h-6 flex items-center justify-center">
+                    <i class="ri-store-2-line ri-lg"></i>
+                </div>
+                <span class="text-xs mt-1">스토어</span>
+            </a>
+            <a href="#" class="flex flex-col items-center justify-center text-gray-500">
+                <div class="w-6 h-6 flex items-center justify-center">
+                    <i class="ri-search-line ri-lg"></i>
+                </div>
+                <span class="text-xs mt-1">검색</span>
+            </a>
+            <a href="#" class="flex flex-col items-center justify-center text-gray-500">
+                <div class="w-6 h-6 flex items-center justify-center">
+                    <i class="ri-user-line ri-lg"></i>
+                </div>
+                <span class="text-xs mt-1">마이</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- 플로팅 버튼 -->
+    <a href="#" class="fixed bottom-20 right-4 w-14 h-14 bg-primary rounded-full shadow-lg flex items-center justify-center cursor-pointer">
+        <i class="ri-shopping-cart-fill ri-xl text-white"></i>
+    </a>
+
+    <script id="accordion-script">
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggles = [
+                {
+                    toggle: document.getElementById('certification-toggle'),
+                    content: document.getElementById('certification-content'),
+                    icon: document.getElementById('certification-icon')
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '80%',
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: { enabled: false }
-                    }
-                }
-            });
-
-            const hygieneCtx = document.getElementById('hygieneChart').getContext('2d');
-            new Chart(hygieneCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['살모넬라균', '리스테리아균', '아플라톡신 B1 (ppb)'],
-                    datasets: [{
-                        label: '검출량',
-                        data: [0, 0, 0.8],
-                        backgroundColor: [
-                            '#007BFF', /* System UI: Blue for detected/safe */
-                            '#007BFF',
-                            '#C0C0C0'  /* System UI: Gray for values */
-                        ],
-                        borderRadius: 5,
-                        borderWidth: 0,
-                        barThickness: 20,
-                    }]
+                {
+                    toggle: document.getElementById('blockchain-toggle'),
+                    content: document.getElementById('blockchain-content'),
+                    icon: document.getElementById('blockchain-icon')
                 },
-                options: {
-                    indexAxis: 'y',
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    scales: {
-                        x: {
-                            beginAtZero: true,
-                            grid: { display: false, drawBorder: false, },
-                             ticks: {
-                                callback: function(value, index, values) {
-                                    return value + (index === 2 ? ' ppb' : '');
-                                }
-                            }
-                        },
-                        y: {
-                             grid: { display: false, drawBorder: false, }
-                        }
-                    },
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                             callbacks: {
-                                label: function(context) {
-                                    let label = context.dataset.label || '';
-                                    if (label) { label += ': '; }
-                                    if (context.parsed.x !== null) {
-                                        if(context.label.includes('균')) {
-                                           return context.parsed.x === 0 ? '불검출' : context.parsed.x;
-                                        }
-                                        label += context.parsed.x + ' ppb';
-                                    }
-                                    return label;
-                                }
-                            }
-                        }
-                    }
+                {
+                    toggle: document.getElementById('temperature-toggle'),
+                    content: document.getElementById('temperature-content'),
+                    icon: document.getElementById('temperature-icon')
                 }
+            ];
+            
+            toggles.forEach(item => {
+                item.toggle.addEventListener('click', function() {
+                    const isHidden = item.content.classList.contains('hidden');
+                    
+                    // 닫기 모든 아코디언
+                    toggles.forEach(innerItem => {
+                        innerItem.content.classList.add('hidden');
+                        innerItem.icon.classList.remove('transform', 'rotate-180');
+                    });
+                    
+                    // 클릭한 아코디언 열기
+                    if (isHidden) {
+                        item.content.classList.remove('hidden');
+                        item.icon.classList.add('transform', 'rotate-180');
+                    }
+                });
             });
         });
     </script>
- <script>
-    // 숫자 애니메이션: 0 → 목표값
-    function animateValue(id, start, end, duration) {
-      const el = document.getElementById(id);
-      let current = start;
-      const stepTime = Math.max(50, duration / (end - start));
-      const timer = setInterval(() => {
-        current++;
-        el.textContent = current.toLocaleString();
-        if (current >= end) clearInterval(timer);
-      }, stepTime);
-    }
-    // 깜빡임 효과
-    function blink(id, interval) {
-      const el = document.getElementById(id);
-      setInterval(() => {
-        el.style.visibility = el.style.visibility === 'hidden' ? 'visible' : 'hidden';
-      }, interval);
-    }
-    // DOM 로드 후 실행
-    document.addEventListener('DOMContentLoaded', () => {
-      animateValue('blockCount', 0, 1284, 2000);
-      animateValue('txCount',    0, 420,  1500);
-      blink('lastUpdate', 500);
-    });
-  </script>
 </body>
 </html>
