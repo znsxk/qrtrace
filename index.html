@@ -609,11 +609,11 @@ ISO 22000
 <p class="text-sm text-gray-600 mt-1">중국 운남성 디칭 티베트족 자치주 샹그릴라시</p>
 <div class="flex items-center mt-3 text-sm">
 <div class="flex items-center mr-4">
-<i class="ri-store-2-line ri-lg mr-1 text-primary"></i>
+<i class="ri-store-2-line ri-lg mr-1" style="color: #FFD700"></i>
 <span>지리적표시제 인증</span>
 </div>
 <div class="flex items-center">
-<i class="ri-award-line ri-lg mr-1 text-primary"></i>
+<i class="ri-award-line ri-lg mr-1" style="color: #FFD700"></i>
 <span>유기농 인증</span>
 </div>
 </div>
@@ -1083,19 +1083,18 @@ icon.classList.add('icon-spin');
 <script id="counter-script">
 document.addEventListener('DOMContentLoaded', function() {
 function updateRandomData() {
-  setInterval(() => {
-    const temp = document.querySelector('.text-primary:contains("3.2°C")');
-    if(temp) {
-      const newTemp = (3 + Math.random() * 0.4).toFixed(1);
-      temp.textContent = `${newTemp}°C`;
-    }
-    
-    const humidity = document.querySelector('.font-medium:contains("%")');
-    if(humidity) {
-      const newHumidity = Math.floor(83 + Math.random() * 4);
-      humidity.textContent = `${newHumidity}%`;
-    }
-  }, 3000);
+setInterval(() => {
+const temp = document.querySelector('.text-primary:contains("3.2°C")');
+if(temp) {
+const newTemp = (3 + Math.random() * 0.4).toFixed(1);
+temp.textContent = `${newTemp}°C`;
+}
+const humidity = document.querySelector('.font-medium:contains("%")');
+if(humidity) {
+const newHumidity = Math.floor(83 + Math.random() * 4);
+humidity.textContent = `${newHumidity}%`;
+}
+}, 3000);
 }
 function animateCounter(element, target) {
 updateRandomData();
@@ -1202,6 +1201,9 @@ animationEasing: 'elasticOut'
 };
 pesticideChart.setOption(pesticideOption);
 const option = {
+animation: true,
+animationDuration: 2000,
+animationEasing: 'cubicInOut',
 grid: {
 top: 10,
 right: 10,
@@ -1237,6 +1239,10 @@ data: [320, 350, 380, 420, 390, 450],
 itemStyle: {
 color: '#70824F'
 },
+animationDuration: 3000,
+animationDelay: function(idx) {
+return idx * 300;
+},
 areaStyle: {
 color: {
 type: 'linear',
@@ -1252,7 +1258,19 @@ offset: 1,
 color: 'rgba(112, 130, 79, 0)'
 }]
 }
-}
+},
+animationDelay: function (idx) {
+return idx * 100;
+},
+symbolSize: 8,
+effect: {
+show: true,
+period: 3,
+color: '#fff',
+shadowBlur: 5
+},
+showSymbol: true,
+symbol: 'circle'
 },
 {
 name: '목표치',
@@ -1264,10 +1282,41 @@ color: '#A5B88B'
 },
 lineStyle: {
 type: 'dashed'
-}
+},
+symbolSize: 6,
+symbol: 'circle'
 }
 ]
 };
+let currentIndex = 0;
+const baseValues = [320, 350, 380, 420, 390, 450];
+function updateChart() {
+if (currentIndex >= baseValues.length) {
+currentIndex = 0;
+}
+const newData = baseValues.map((value, idx) => {
+if (idx <= currentIndex) {
+return value + (Math.random() * 20 - 10);
+}
+return null;
+});
+productionChart.setOption({
+series: [{
+data: newData,
+symbolSize: function(value, params) {
+return params.dataIndex === currentIndex ? 12 : 8;
+},
+itemStyle: {
+color: function(params) {
+return params.dataIndex === currentIndex ? '#70824F' : '#A5B88B';
+}
+}
+}]
+});
+currentIndex++;
+}
+setInterval(updateChart, 1500);
+updateChart();
 productionChart.setOption(option);
 window.addEventListener('resize', function() {
 productionChart.resize();
