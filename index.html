@@ -13,6 +13,20 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
 <style>
 :where([class^="ri-"])::before { content: "\f3c2"; }
+.glass-effect {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+.premium-shadow {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+.luxury-gradient {
+  background: linear-gradient(135deg, #70824F 0%, #8B9B6A 100%);
+}
+.premium-text-shadow {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 @keyframes marquee {
 0% {
 transform: translateX(-100%);
@@ -176,10 +190,10 @@ transform: rotate(360deg);
 </head>
 <body class="bg-[#F9F8F6] text-[#3A332A]">
 <!-- 상단 네비게이션 -->
-<nav class="fixed top-0 w-full bg-white shadow-md z-50 px-4 py-3">
+<nav class="fixed top-0 w-full glass-effect premium-shadow z-50 px-4 py-3">
 <div class="flex items-center justify-between">
 <div class="flex items-center space-x-2">
-<div class="w-8 h-8 flex items-center justify-center bg-[#F0F3EB] rounded-full">
+<div class="w-8 h-8 flex items-center justify-center luxury-gradient text-white rounded-full">
 <i class="ri-shield-check-line text-primary"></i>
 </div>
 <div>
@@ -205,21 +219,20 @@ transform: rotate(360deg);
 <main class="pt-16 pb-6">
 <!-- Hero 섹션 -->
 <section class="relative w-full overflow-hidden">
-<div class="bg-[#F0F3EB] p-4 pt-6">
+<div class="bg-gradient-to-br from-[#F0F3EB] to-[#FFFFFF] p-4 pt-6">
 <div class="flex items-center justify-between mb-4">
 <div>
 <div class="flex items-center space-x-2 mb-1">
 <p class="text-xs text-primary">Product Tracking System v2.5 Enterprise</p>
-<span class="text-[10px] px-1.5 py-0.5 bg-blue-50 text-blue-700 rounded-full">ISO 27001</span>
 </div>
-<h1 class="text-xl font-bold text-secondary">능이버섯 이력추적 시스템</h1>
+<h1 class="text-xl font-bold text-secondary premium-text-shadow tracking-tight">능이버섯 이력추적 시스템</h1>
 <div class="flex items-center space-x-2 mt-1">
 <span class="text-[10px] px-1.5 py-0.5 bg-gray-100 text-gray-600 rounded-full">블록체인 기반</span>
 <span class="text-[10px] px-1.5 py-0.5 bg-gray-100 text-gray-600 rounded-full">실시간 데이터</span>
 <span class="text-[10px] px-1.5 py-0.5 bg-gray-100 text-gray-600 rounded-full">AI 품질관리</span>
 </div>
 </div>
-<div class="w-12 h-12 flex items-center justify-center bg-white rounded-full shadow-md">
+<div class="w-12 h-12 flex items-center justify-center glass-effect premium-shadow rounded-full">
 <i class="ri-qr-scan-2-line ri-lg text-primary"></i>
 </div>
 </div>
@@ -227,14 +240,13 @@ transform: rotate(360deg);
 <i class="ri-search-line text-gray-400"></i>
 <input type="text" placeholder="제품번호 또는 QR코드 검색" class="w-full text-sm border-none focus:outline-none">
 </div>
-<div class="flex space-x-2 mb-4">
-<div class="grid grid-cols-2 gap-2">
+<div class="grid grid-cols-2 gap-2 mb-4 w-full">
 <div class="bg-white rounded-lg p-3 text-center">
 <p class="text-xs text-gray-500 mb-1">Today's Scan</p>
-<p class="text-lg font-bold text-primary"><span id="todayScan" data-target="2471">0</span></p>
+<p class="text-lg font-bold text-primary"><span id="todayScan" data-target="0">0</span></p>
 <div class="flex items-center justify-center mt-1">
 <i class="ri-arrow-up-line text-green-500 text-xs"></i>
-<span class="text-[10px] text-green-500 animate-blink">+12.5%</span>
+<span class="text-[10px] text-green-500 animate-blink">실시간 업데이트</span>
 </div>
 </div>
 <div class="bg-white rounded-lg p-3 text-center">
@@ -246,34 +258,11 @@ transform: rotate(360deg);
 </div>
 </div>
 </div>
-<div class="mt-2 bg-white rounded-lg p-3">
-<div class="flex items-center justify-between">
-<div class="flex items-center space-x-2">
-<i class="ri-shield-star-line text-primary"></i>
-<span class="text-xs">시스템 상태</span>
-</div>
-<div class="flex items-center space-x-2">
-<span class="flex items-center space-x-1">
-<span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
-<span class="text-[10px] text-gray-600">블록체인</span>
-</span>
-<span class="flex items-center space-x-1">
-<span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
-<span class="text-[10px] text-gray-600">IoT센서</span>
-</span>
-<span class="flex items-center space-x-1">
-<span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
-<span class="text-[10px] text-gray-600">AI분석</span>
-</span>
-</div>
-</div>
-</div>
-</div>
 </div>
 </section>
 <!-- 제품 정보 카드 -->
 <section class="px-4 relative z-10">
-<div class="bg-white rounded-lg shadow-md p-4 border border-[#E8ECE3]">
+<div class="glass-effect premium-shadow rounded-lg p-4 border border-[#E8ECE3]">
 <div class="flex justify-between items-start">
 <div>
 <div class="flex items-center space-x-2 mb-2">
@@ -321,7 +310,7 @@ transform: rotate(360deg);
 </div>
 <div>
 <p class="text-xs text-gray-500">중량</p>
-<p class="font-medium">500g</p>
+<p class="font-medium">100g</p>
 </div>
 </div>
 <div class="flex items-center space-x-2">
@@ -368,7 +357,7 @@ transform: rotate(360deg);
 <div class="relative pl-10">
 <div class="timeline-line"></div>
 <!-- 수확 단계 -->
-<div class="relative mb-8">
+<div class="relative mb-8 animate-fadeInRight" style="animation-duration: 0.3s; animation-delay: 0.1s">
 <div class="absolute left-[-36px] w-10 h-10 rounded-full bg-primary flex items-center justify-center z-10">
 <i class="ri-plant-line ri-lg text-white"></i>
 </div>
@@ -385,7 +374,7 @@ transform: rotate(360deg);
 <div class="grid grid-cols-2 gap-3 text-sm">
 <div>
 <p class="text-gray-500">작업 위치</p>
-<p class="font-medium">강원도 평창군 대관령면</p>
+<p class="font-medium">운남성 따리 , 야장 , 샹그릴라 자치구</p>
 </div>
 <div>
 <p class="text-gray-500">작업자 ID</p>
@@ -393,7 +382,7 @@ transform: rotate(360deg);
 </div>
 <div>
 <p class="text-gray-500">수확량</p>
-<p class="font-medium">127.5kg</p>
+<p class="font-medium">3275kg</p>
 </div>
 <div>
 <p class="text-gray-500">품질 등급</p>
@@ -411,7 +400,7 @@ transform: rotate(360deg);
 </div>
 </div>
 <!-- 검사 단계 -->
-<div class="relative mb-8">
+<div class="relative mb-8 animate-fadeInRight" style="animation-duration: 0.3s; animation-delay: 0.2s">
 <div class="absolute left-[-36px] w-10 h-10 rounded-full bg-primary flex items-center justify-center z-10">
 <i class="ri-test-tube-line ri-lg text-white"></i>
 </div>
@@ -428,7 +417,7 @@ transform: rotate(360deg);
 <div class="grid grid-cols-2 gap-3 text-sm">
 <div>
 <p class="text-gray-500">검사 기관</p>
-<p class="font-medium">식품안전관리인증원</p>
+<p class="font-medium">GACC산하검사기관</p>
 </div>
 <div>
 <p class="text-gray-500">검사 번호</p>
@@ -447,20 +436,113 @@ transform: rotate(360deg);
 <div class="flex justify-between items-center">
 <div class="flex items-center text-xs text-gray-500">
 <i class="ri-shield-check-line text-primary mr-1"></i>
-HACCP 인증
+GACC산하 검사기관 인증
 <span class="mx-2">|</span>
 <i class="ri-shield-check-line text-primary mr-1"></i>
-ISO 22000
+식품의약품안전처 정밀검사 합격
 </div>
-<button class="flex items-center text-primary text-xs font-medium">
+<button id="inspection-report-btn" class="flex items-center text-primary text-xs font-medium">
 <span>검사 성적서</span>
 <i class="ri-external-link-line ml-1"></i>
+</button>
+<div id="inspection-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+<div class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[340px] bg-white rounded-lg shadow-xl">
+<div class="p-4 border-b border-gray-100">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-lg font-bold">검사 성적서</h3>
+<button id="close-modal" class="text-gray-400 hover:text-gray-600">
+<i class="ri-close-line ri-lg"></i>
+</button>
+</div>
+<div class="space-y-2 text-sm">
+<div class="flex justify-between">
+<span class="text-gray-500">검사 기관</span>
+<span class="font-medium">식품안전관리인증원</span>
+</div>
+<div class="flex justify-between">
+<span class="text-gray-500">검사 일자</span>
+<span class="font-medium">2025년 6월 16일</span>
+</div>
+<div class="flex justify-between">
+<span class="text-gray-500">검사 번호</span>
+<span class="font-medium">QC-2506-127</span>
+</div>
+</div>
+</div>
+<div class="p-4 max-h-[400px] overflow-y-auto">
+<div class="space-y-6">
+<div>
+<h4 class="font-medium mb-3">잔류농약 검사 결과</h4>
+<div class="bg-gray-50 p-3 rounded-lg space-y-2">
+<div class="flex justify-between text-sm">
+<span class="text-gray-500">유기인계</span>
+<span class="text-green-500">불검출</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-gray-500">카바메이트계</span>
+<span class="text-green-500">불검출</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-gray-500">피레스로이드계</span>
+<span class="text-green-500">불검출</span>
+</div>
+</div>
+</div>
+<div>
+<h4 class="font-medium mb-3">중금속 검사 결과</h4>
+<div class="bg-gray-50 p-3 rounded-lg space-y-2">
+<div class="flex justify-between text-sm">
+<span class="text-gray-500">납 (Pb)</span>
+<span class="text-green-500">0.01mg/kg 이하</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-gray-500">카드뮴 (Cd)</span>
+<span class="text-green-500">0.01mg/kg 이하</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-gray-500">수은 (Hg)</span>
+<span class="text-green-500">0.005mg/kg 이하</span>
+</div>
+</div>
+</div>
+<div>
+<h4 class="font-medium mb-3">미생물 검사 결과</h4>
+<div class="bg-gray-50 p-3 rounded-lg space-y-2">
+<div class="flex justify-between text-sm">
+<span class="text-gray-500">일반세균</span>
+<span class="text-green-500">적합</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-gray-500">대장균군</span>
+<span class="text-green-500">불검출</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-gray-500">살모넬라</span>
+<span class="text-green-500">음성</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 border-t border-gray-100">
+<div class="flex space-x-2">
+<button id="download-pdf" class="flex-1 bg-primary text-white py-2 px-4 rounded-button flex items-center justify-center">
+<i class="ri-file-download-line mr-2"></i>
+PDF 다운로드
+</button>
+<button id="print-report" class="flex-1 bg-[#F0F3EB] text-primary py-2 px-4 rounded-button flex items-center justify-center">
+<i class="ri-printer-line mr-2"></i>
+인쇄
 </button>
 </div>
 </div>
 </div>
+</div>
+</div>
+</div>
+</div>
 <!-- 포장 단계 -->
-<div class="relative mb-8">
+<div class="relative mb-8 animate-fadeInRight" style="animation-duration: 0.3s; animation-delay: 0.3s">
 <div class="absolute left-[-36px] w-10 h-10 rounded-full bg-primary flex items-center justify-center z-10">
 <i class="ri-inbox-archive-line ri-lg text-white"></i>
 </div>
@@ -477,7 +559,7 @@ ISO 22000
 <div class="grid grid-cols-2 gap-3 text-sm">
 <div>
 <p class="text-gray-500">포장 규격</p>
-<p class="font-medium">500g/단위</p>
+<p class="font-medium">100g/단위</p>
 </div>
 <div>
 <p class="text-gray-500">포장 번호</p>
@@ -503,7 +585,7 @@ ISO 22000
 </div>
 </div>
 <!-- 유통 단계 -->
-<div class="relative mb-8">
+<div class="relative mb-8 animate-fadeInRight" style="animation-duration: 0.3s; animation-delay: 0.4s">
 <div class="absolute left-[-36px] w-10 h-10 rounded-full bg-primary flex items-center justify-center z-10">
 <i class="ri-truck-line ri-lg text-white"></i>
 </div>
@@ -528,7 +610,7 @@ ISO 22000
 </div>
 <div>
 <p class="text-gray-500">현재 온도</p>
-<p class="font-medium text-primary">3.2°C</p>
+<p class="font-medium text-primary">-18°C</p>
 </div>
 <div>
 <p class="text-gray-500">습도</p>
@@ -549,7 +631,7 @@ ISO 22000
 </div>
 </div>
 <!-- 매장 입고 단계 -->
-<div class="relative">
+<div class="relative animate-fadeInRight" style="animation-duration: 0.3s; animation-delay: 0.5s">
 <div class="absolute left-[-36px] w-10 h-10 rounded-full bg-primary flex items-center justify-center z-10">
 <i class="ri-store-2-line ri-lg text-white"></i>
 </div>
@@ -566,7 +648,7 @@ ISO 22000
 <div class="grid grid-cols-2 gap-3 text-sm">
 <div>
 <p class="text-gray-500">입고 지점</p>
-<p class="font-medium">강남 프리미엄점</p>
+<p class="font-medium">푸른원 냉동창고</p>
 </div>
 <div>
 <p class="text-gray-500">입고 번호</p>
@@ -578,7 +660,7 @@ ISO 22000
 </div>
 <div>
 <p class="text-gray-500">보관 온도</p>
-<p class="font-medium">2.8°C</p>
+<p class="font-medium">-18°C</p>
 </div>
 </div>
 </div>
@@ -624,7 +706,7 @@ ISO 22000
 <!-- 생산 데이터 섹션 -->
 <section class="mt-8 px-4">
 <h2 class="text-xl font-bold mb-4">생산 데이터 분석</h2>
-<div class="bg-white rounded-lg shadow-md p-4">
+<div class="glass-effect premium-shadow rounded-lg p-4">
 <div class="flex items-center justify-between mb-4">
 <div class="flex items-center">
 <div class="w-10 h-10 flex items-center justify-center bg-[#F0F3EB] rounded-full mr-3">
@@ -693,7 +775,7 @@ ISO 22000
 <!-- 신뢰성 섹션 -->
 <section class="mt-8 px-4">
 <h2 class="text-xl font-bold mb-4">품질 인증 정보</h2>
-<div class="bg-white rounded-lg shadow-md p-4">
+<div class="glass-effect premium-shadow rounded-lg p-4">
 <div class="border-b border-gray-200 pb-3 mb-3">
 <div class="flex justify-between items-center cursor-pointer" id="certification-toggle">
 <div class="flex items-center">
@@ -772,7 +854,7 @@ TXID: 0x7f9e8d7c6b5a4e3d2c1b0a9f8e7d6c5b4a3f2e1d0c9b8a7f6e5d4c3b2a1f0
 <!-- 품질 분석 섹션 -->
 <section class="mt-8 px-4 mb-20">
 <h2 class="text-xl font-bold mb-4">품질 분석 리포트</h2>
-<div class="bg-white rounded-lg shadow-md p-4">
+<div class="glass-effect premium-shadow rounded-lg p-4">
 <div class="flex items-center justify-between mb-4">
 <div class="flex items-center">
 <div class="w-10 h-10 flex items-center justify-center bg-[#F0F3EB] rounded-full mr-3">
@@ -947,7 +1029,7 @@ TXID: 0x7f9e8d7c6b5a4e3d2c1b0a9f8e7d6c5b4a3f2e1d0c9b8a7f6e5d4c3b2a1f0
 <h4 class="font-medium">품질 등급 평가</h4>
 <span class="text-primary font-bold">A+</span>
 </div>
-<div class="bg-[#F0F3EB] p-3 rounded-lg">
+<div class="bg-gradient-to-br from-[#F0F3EB] to-[#FFFFFF] p-3 rounded-lg">
 <div class="grid grid-cols-3 gap-2 text-center text-xs">
 <div>
 <div class="font-medium mb-1">크기 균일도</div>
@@ -968,7 +1050,7 @@ TXID: 0x7f9e8d7c6b5a4e3d2c1b0a9f8e7d6c5b4a3f2e1d0c9b8a7f6e5d4c3b2a1f0
 </section>
 </main>
 <!-- 하단 시스템 정보 -->
-<div class="px-4 py-4 bg-[#F0F3EB] mt-8">
+<div class="px-4 py-4 bg-gradient-to-br from-[#F0F3EB] to-[#FFFFFF] mt-8">
 <div class="flex items-center justify-between text-xs text-gray-500 mb-2">
 <div class="flex items-center space-x-2">
 <i class="ri-shield-check-line"></i>
@@ -978,18 +1060,6 @@ TXID: 0x7f9e8d7c6b5a4e3d2c1b0a9f8e7d6c5b4a3f2e1d0c9b8a7f6e5d4c3b2a1f0
 </div>
 <div class="flex items-center justify-between">
 <div class="flex items-center space-x-3 text-[10px]">
-<span class="flex items-center space-x-1">
-<i class="ri-checkbox-circle-fill text-green-500"></i>
-<span>ISO 27001</span>
-</span>
-<span class="flex items-center space-x-1">
-<i class="ri-checkbox-circle-fill text-green-500"></i>
-<span>HACCP</span>
-</span>
-<span class="flex items-center space-x-1">
-<i class="ri-checkbox-circle-fill text-green-500"></i>
-<span>FDA</span>
-</span>
 </div>
 <div class="flex items-center space-x-2">
 <img src="https://readdy.ai/api/search-image?query=blockchain%20technology%20icon%2C%20minimalist%2C%20modern%2C%20tech%20style&width=16&height=16&seq=12&orientation=squarish" alt="Blockchain" class="w-4 h-4">
@@ -1056,6 +1126,40 @@ observer.observe(nutritionSection);
 }
 });
 </script>
+<script id="modal-script">
+document.addEventListener('DOMContentLoaded', function() {
+const modal = document.getElementById('inspection-modal');
+const openBtn = document.getElementById('inspection-report-btn');
+const closeBtn = document.getElementById('close-modal');
+const downloadBtn = document.getElementById('download-pdf');
+const printBtn = document.getElementById('print-report');
+openBtn.addEventListener('click', () => {
+modal.classList.remove('hidden');
+document.body.style.overflow = 'hidden';
+});
+closeBtn.addEventListener('click', () => {
+modal.classList.add('hidden');
+document.body.style.overflow = '';
+});
+modal.addEventListener('click', (e) => {
+if (e.target === modal) {
+modal.classList.add('hidden');
+document.body.style.overflow = '';
+}
+});
+downloadBtn.addEventListener('click', () => {
+const timestamp = new Date().toISOString().slice(0,10).replace(/-/g,'');
+const filename = `inspection_report_${timestamp}.pdf`;
+const downloadLink = document.createElement('a');
+downloadLink.href = '#';
+downloadLink.download = filename;
+downloadLink.click();
+});
+printBtn.addEventListener('click', () => {
+window.print();
+});
+});
+</script>
 <script id="animation-script">
 document.addEventListener('DOMContentLoaded', function() {
 const sections = document.querySelectorAll('section');
@@ -1082,14 +1186,27 @@ icon.classList.add('icon-spin');
 </script>
 <script id="counter-script">
 document.addEventListener('DOMContentLoaded', function() {
+function generateDailyBaseValue() {
+const date = new Date().toDateString();
+const storedDate = localStorage.getItem('lastDate');
+let baseValue = parseInt(localStorage.getItem('baseValue'));
+if (storedDate !== date || !baseValue) {
+baseValue = Math.floor(Math.random() * (250 - 150 + 1) + 150);
+localStorage.setItem('baseValue', baseValue);
+localStorage.setItem('lastDate', date);
+}
+return baseValue;
+}
 function updateRandomData() {
 setInterval(() => {
-const temp = document.querySelector('.text-primary:contains("3.2°C")');
+const temps = document.querySelectorAll('.font-medium.text-primary');
+const temp = Array.from(temps).find(el => el.textContent.includes('°C'));
 if(temp) {
-const newTemp = (3 + Math.random() * 0.4).toFixed(1);
+const newTemp = (-18 + Math.random() * 0.4).toFixed(1);
 temp.textContent = `${newTemp}°C`;
 }
-const humidity = document.querySelector('.font-medium:contains("%")');
+const humidityElements = document.querySelectorAll('.font-medium');
+const humidity = Array.from(humidityElements).find(el => el.textContent.includes('%'));
 if(humidity) {
 const newHumidity = Math.floor(83 + Math.random() * 4);
 humidity.textContent = `${newHumidity}%`;
@@ -1116,7 +1233,7 @@ visitCount++;
 localStorage.setItem('visitCount', visitCount);
 const todayScan = document.getElementById('todayScan');
 const totalProducts = document.getElementById('totalProducts');
-const baseToday = 2471;
+const baseToday = generateDailyBaseValue();
 const baseTotal = 12389;
 todayScan.dataset.target = (baseToday + visitCount).toString();
 totalProducts.dataset.target = (baseTotal + visitCount).toString();
